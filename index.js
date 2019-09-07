@@ -38,10 +38,12 @@ class MendelBioApi {
   }
 
   /**
-   * Perform a firebase login to comvert the FB token into an service token.
+   * Perform a firebase login to convert the FB token into an mendel_bio_api service token.
+   * @param login_info : To be passed on the req.body with firebase auth token.
+   * @returns {Promise<boolean>} True if the valid token is received, false ioc.
    */
 
-  login(login_info) {
+  auth_firebase(login_info) {
     return fetch(this.base_url + "mendel/bio/v1/login/firebase", {
       method: "POST",
       body: JSON.stringify(login_info),
@@ -55,8 +57,27 @@ class MendelBioApi {
   }
 
   /**
-   * Perfcorm a fake login using and mydnamap user email
-   * @param email
+   * Perform a vault login to convert the Valut token into an mendel_bio_api service token.
+   * @param login_info : To be passed on the req.body with vault auth token.
+   * @returns {Promise<boolean>} True if the valid token is received, false ioc.
+   */
+  auth_vault(login_info) {
+    return fetch(this.base_url + "mendel/bio/v1/login/vault", {
+      method: "POST",
+      body: JSON.stringify(login_info),
+      headers: {"Content-Type": "application/json"}
+    })
+        .then(res => res.json())
+        .then(response => {
+          this.auth_token = response["x-authtoken"];
+          return response["x-authtoken"] != null;
+        });
+  }
+
+  /**
+   * Perform a fake login using and mydnamap user email
+   * @param email : mydnamap user email
+   * @returns {Promise<boolean>} True if the valid token is received, false ioc.
    */
 
   fakeLogin(email) {
@@ -72,9 +93,16 @@ class MendelBioApi {
         });
   }
 
+  /**
+   * Peform a get operation into MedicalInfo document DB.
+   * @param search : search condition of style : "!sex = :sexValue and !country = :countryValue" where ![field]
+   * represents an document object field  and :[fieldValue] represent and value to be passed as the query parameter
+   * @param args : Arguments to be pased as part of the url query string parameters
+   * @returns {Promise<any>} return and array of MedicalInfo found.
+   */
   get(search, ...args) {
 
-    checkAuthenticated();
+    this.checkAuthenticated();
 
     let varNameRegExp = new RegExp("[!][a-zA-Z]*", "g");
     let valuesRegExp = new RegExp("[:][a-zA-Z]*", "g");
@@ -104,6 +132,77 @@ class MendelBioApi {
 
     return fetch(this.base_url + search_url_part, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
+    })
+        .then(res => res.json())
+        .then(response => {
+          return response;
+        });
+  }
+
+  /**
+   * Retrieve and document DB MedicalInfo object by id
+   * @param objectId : Id to lookup
+   * @returns {Promise<any>}
+   */
+  getByMedicalInfoId(objectId) {
+    return fetch(this.base_url + `mendel/bio/v1/minfo/${objectId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
+    })
+        .then(res => res.json())
+        .then(response => {
+          return response;
+        });
+  }
+
+  /**
+   * Update an Medical Info object
+   * @param medical_info : medical info object to be updated
+   * @returns {Promise<any>} Return the updated Medical Info object
+   */
+  updateMedicalInfo(medical_info) {
+
+    if (!medical_info) {
+      throw "Invalid parameter medical_info in updateMedicalInfo method. Parameter can't be null or empty";
+    }
+
+    if (!medical_info.objectId || !medical_info.dna_id) {
+      throw "Invalid parameter medical_info in updateMedicalInfo method. " +
+      "Parameters medical_info.objectId or medical_info.dna_id can't be null or empty";
+    }
+
+    return fetch(this.base_url + `mendel/bio/v1/minfo/${medical_info.objectId}`, {
+      method: "PUT",
+      body: JSON.stringify({medical_info: medical_info}),
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
+    })
+        .then(res => res.json())
+        .then(response => {
+          return response;
+        })
+        .catch(e => {
+          console.log(e)
+        })
+  }
+
+  /**
+   * Update an Medical Info object
+   * @param dna_id : required DNA ID from the Vault.
+   * @returns {Promise<any>} Returns the created Medical Info object
+   */
+  createMedicalInfo(dna_id) {
+    return fetch(this.base_url + `mendel/bio/v1/minfo/${dna_id}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         "x-authtoken": this.auth_token
