@@ -45,13 +45,13 @@ class MendelBioApi {
     return fetch(this.base_url + "mendel/bio/v1/login/firebase", {
       method: "POST",
       body: JSON.stringify(login_info),
-      headers: { "Content-Type": "application/json" }
+      headers: {"Content-Type": "application/json"}
     })
-      .then(res => res.json())
-      .then(response => {
-        this.auth_token = response["x-authtoken"];
-        return response["x-authtoken"] != null;
-      });
+        .then(res => res.json())
+        .then(response => {
+          this.auth_token = response["x-authtoken"];
+          return response["x-authtoken"] != null;
+        });
   }
 
   /**
@@ -62,20 +62,23 @@ class MendelBioApi {
   fakeLogin(email) {
     return fetch(this.base_url + "mendel/bio/v1/login/fake", {
       method: "POST",
-      body: JSON.stringify({ email: email }),
-      headers: { "Content-Type": "application/json" }
+      body: JSON.stringify({email: email}),
+      headers: {"Content-Type": "application/json"}
     })
-      .then(res => res.json())
-      .then(response => {
-        this.auth_token = response["x-authtoken"];
-        return response["x-authtoken"] != null;
-      });
+        .then(res => res.json())
+        .then(response => {
+          this.auth_token = response["x-authtoken"];
+          return response["x-authtoken"] != null;
+        });
   }
 
   get(search, ...args) {
+
+    checkAuthenticated();
+
     let varNameRegExp = new RegExp("[!][a-zA-Z]*", "g");
     let valuesRegExp = new RegExp("[:][a-zA-Z]*", "g");
-    let variables = [];
+
     let values = [];
     let vars = "";
     let parameters = "";
@@ -83,9 +86,7 @@ class MendelBioApi {
     let search_url_part = `mendel/bio/v1/minfo/`;
 
     if (search) {
-      while ((vars = varNameRegExp.exec(search)) !== null) {
-        variables.push(vars[0]);
-      }
+
 
       while ((vars = valuesRegExp.exec(search)) !== null) {
         values.push(vars[0]);
@@ -108,10 +109,10 @@ class MendelBioApi {
         "x-authtoken": this.auth_token
       }
     })
-      .then(res => res.json())
-      .then(response => {
-        return response;
-      });
+        .then(res => res.json())
+        .then(response => {
+          return response;
+        });
   }
 }
 
