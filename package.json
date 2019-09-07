@@ -1,0 +1,12 @@
+{
+  "name": "mendel_bio_api_client",
+  "version": "0.0.1",
+  "description": "Client for the mendel BIO API.",
+  "main": "index.js",
+  "author": "Mario Rodriguez Mier",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "prettier": "^1.18.2"
+  }
+}
