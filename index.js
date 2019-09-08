@@ -100,7 +100,7 @@ class MendelBioApi {
    * @param args : Arguments to be pased as part of the url query string parameters
    * @returns {Promise<any>} return and array of MedicalInfo found.
    */
-  get(search, ...args) {
+  get(search, max, ...args) {
 
     this.checkAuthenticated();
 
@@ -113,8 +113,11 @@ class MendelBioApi {
 
     let search_url_part = `mendel/bio/v1/minfo/`;
 
-    if (search) {
+    if (max) {
+      search_url_part += `?max=${max}`;
+    }
 
+    if (search) {
 
       while ((vars = valuesRegExp.exec(search)) !== null) {
         values.push(vars[0]);
@@ -128,6 +131,9 @@ class MendelBioApi {
         parameters += `&${e}=${args[index]}`;
       });
       search_url_part = `mendel/bio/v1/minfo/?search=${search}${parameters}`;
+      if (max) {
+        search_url_part += `&max=${max}`;
+      }
     }
 
     return fetch(this.base_url + search_url_part, {
@@ -173,9 +179,9 @@ class MendelBioApi {
       throw "Invalid parameter medical_info in updateMedicalInfo method. Parameter can't be null or empty";
     }
 
-    if (!medical_info.objectId || !medical_info.dna_id) {
+    if (!medical_info.objectId || !medical_info.dnaId) {
       throw "Invalid parameter medical_info in updateMedicalInfo method. " +
-      "Parameters medical_info.objectId or medical_info.dna_id can't be null or empty";
+      "Parameters medical_info.objectId or medical_info.dnaId can't be null or empty";
     }
 
     return fetch(this.base_url + `mendel/bio/v1/minfo/${medical_info.objectId}`, {
@@ -197,11 +203,11 @@ class MendelBioApi {
 
   /**
    * Update an Medical Info object
-   * @param dna_id : required DNA ID from the Vault.
+   * @param dnaId : required DNA ID from the Vault.
    * @returns {Promise<any>} Returns the created Medical Info object
    */
-  createMedicalInfo(dna_id) {
-    return fetch(this.base_url + `mendel/bio/v1/minfo/${dna_id}`, {
+  createMedicalInfo(dnaId) {
+    return fetch(this.base_url + `mendel/bio/v1/minfo/${dnaId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
