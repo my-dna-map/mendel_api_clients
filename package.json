@@ -2,7 +2,7 @@
   "name": "mendel_bio_api_client",
   "version": "0.0.1",
   "description": "Client for the mendel BIO API.",
-  "main": "index.js",
+  "main": "mendel_bio_api/index.js",
   "author": "Mario Rodriguez Mier",
   "license": "MIT",
   "dependencies": {

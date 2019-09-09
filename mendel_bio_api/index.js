@@ -1,5 +1,7 @@
 // verify fetch exist. In case NO then we are running in node js so use node-fetch implementation
 
+"use strict";
+
 if (typeof fetch === "undefined") {
   global.fetch = require("node-fetch");
 }
@@ -209,6 +211,49 @@ class MendelBioApi {
   createMedicalInfo(dnaId) {
     return fetch(this.base_url + `mendel/bio/v1/minfo/${dnaId}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
+    })
+        .then(res => res.json())
+        .then(response => {
+          return response;
+        });
+  }
+
+  /**
+   *
+   * @param mi
+   * @param buff
+   * @param fileName
+   */
+  uploadFile(mi, buff, fileName) {
+    let parameters = {Name: fileName, Body:  [...buff]};
+    return fetch(this.base_url + `mendel/bio/v1/minfo/${mi.objectId}/files`, {
+      method: "POST",
+      body: JSON.stringify(parameters),
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+
+      }
+    })
+        .then(res => res.json())
+        .then(response => {
+          return response;
+        });
+  }
+
+  /**
+   *
+   * @param mi
+   * @param fileName
+   * @returns {Promise<any>}
+   */
+  getFile (mi,fileName) {
+    return fetch(this.base_url + `mendel/bio/v1/minfo/${mi.objectId}/file/${fileName}`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         "x-authtoken": this.auth_token
