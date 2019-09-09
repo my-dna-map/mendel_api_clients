@@ -45,7 +45,6 @@ client.fakeLogin("mario.rodriguez@mydnamap.com").then(result => {
                           })
                           .catch(e => console.error(e));
                     })
-
                   })
                   .catch(e => console.log(e))
             })
