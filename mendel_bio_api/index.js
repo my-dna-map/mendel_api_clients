@@ -223,13 +223,13 @@ class MendelBioApi {
   }
 
   /**
-   *
-   * @param mi
-   * @param buff
-   * @param fileName
+   *  Upload an file associated with an Medical Information object
+   * @param mi  Medical Info object to whom file will associated
+   * @param buff File buffer
+   * @param fileName File Name
    */
   uploadFile(mi, buff, fileName) {
-    let parameters = {Name: fileName, Body:  [...buff]};
+    let parameters = {Name: fileName, Body: [...buff]};
     return fetch(this.base_url + `mendel/bio/v1/minfo/${mi.objectId}/files`, {
       method: "POST",
       body: JSON.stringify(parameters),
@@ -246,12 +246,19 @@ class MendelBioApi {
   }
 
   /**
-   *
-   * @param mi
-   * @param fileName
-   * @returns {Promise<any>}
+   *  return all information about a file including the bytes.
+   * @param mi  Medical Info Object to whom the file will be required.
+   * @param fileName : File Name
+   * @returns {Promise<any>} {Name: File Name,
+   *                          Body: { AcceptRanges: 'bytes',
+                                      LastModified: '2019-09-09T08:46:53.000Z',
+                                      ContentLength: 9,
+                                      ETag: '"81e6816987d784c0d3a44a1f7608546c"',
+                                      ContentType: 'application/octet-stream',
+                                      Metadata: {},
+                                      Body: { type: 'Buffer', data: [Array] }}}
    */
-  getFile (mi,fileName) {
+  getFile(mi, fileName) {
     return fetch(this.base_url + `mendel/bio/v1/minfo/${mi.objectId}/file/${fileName}`, {
       method: "GET",
       headers: {
