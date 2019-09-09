@@ -1,5 +1,5 @@
 {
-  "name": "mendel_bio_api_client",
+  "name": "mendel_api_clients",
   "version": "0.0.1",
   "description": "Client for the mendel BIO API.",
   "main": "mendel_bio_api/index.js",
