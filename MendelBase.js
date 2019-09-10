@@ -106,9 +106,8 @@ class MendelBase {
    */
 
   loginFake(email) {
-    return fetch(this.base_url + "/login/fake", {
-      method: "POST",
-      body: JSON.stringify({email: email}),
+    return fetch(this.base_url.replace("v1", "dev") + `/login/fake/${email}`, {
+      method: "GET",
       headers: {"Content-Type": "application/json"}
     })
         .then(res => {
@@ -120,10 +119,8 @@ class MendelBase {
         .then(response => {
           this.auth_token = response["x-authtoken"];
           this.user = response["user"];
-          return {auth_Token: this.auth_Token, user: this.user};
+          return {auth_Token: this.auth_token, user: this.user};
         });
-
-
   }
 }
 
