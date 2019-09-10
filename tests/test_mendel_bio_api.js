@@ -16,30 +16,30 @@ client.loginFake("mario.rodriguez@mydnamap.com")
       let sexs = ["female", "male"];
       let countries = ["ARG", "ESP", "CUB", "USA", "CHI"];
 
-      client.get(null, 2).then(r => {
+      client.MedicalInfo.get(null, 2).then(r => {
         if (r.length == 0) { // Medical Info DB is empty, lets add some info,
           for (let i = 0; i < 10; i++) {
-            client.createMedicalInfo(uuidv4()) // create a dnaId to test
+            client.MedicalInfo.create(uuidv4()) // create a dnaId to test
                 .then(c => {
                   c.sex = sexs[rnd(0, 1)]; //"female";
                   c.country = countries[rnd(0, 4)];
-                  client.updateMedicalInfo(c)
+                  client.MedicalInfo.update(c)
                       .catch(e => console.log(e));
                 })
                 .catch(e => console.log(e));
           }
         } else {
           client
-              .get("!country=:countryValue", 4, "CUB")
+              .MedicalInfo.get("!country=:countryValue", 4, "CUB")
               .then(res => {
                 res.forEach(mi => {
-                  client.getByMedicalInfoId(mi.objectId)
+                  client.MedicalInfo.getById(mi.objectId)
                       .then(medicalInfo => {
                         let files = ["test1.bam", "test2.bai"];
                         files.forEach(fileName => {
-                          client.uploadFile({medicalInfo, buffer: fs.readFileSync(`./files/${fileName}`), fileName})
+                          client.MedicalInfo.uploadFile({medicalInfo, buffer: fs.readFileSync(`./files/${fileName}`), fileName})
                               .then(mi => {
-                                client.getFile({medicalInfo: mi, fileName})
+                                client.MedicalInfo.file({medicalInfo: mi, fileName})
                                     .then(file => {
                                       console.log(file)
                                     });

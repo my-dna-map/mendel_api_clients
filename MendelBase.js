@@ -41,6 +41,13 @@ class MendelBase {
     this.base_url = `${url.protocol}://${url.host}` + url.pathname;
   }
 
+  toJsonOrError(res) {
+    if (res.status != 200) {
+      throw {error: res.status, message: res.statusText};
+    }
+    return res.json();
+  }
+
   /**
    * Checks if the authentication token is acquired. In case NO, throws and exception.
    */
@@ -62,12 +69,7 @@ class MendelBase {
       body: JSON.stringify(token),
       headers: {"Content-Type": "application/json"}
     })
-        .then(res => {
-          if (res.status != 200) {
-            throw {error: res.status, message: res.statusText};
-          }
-          return res.json();
-        })
+        .then(res => this.toJsonOrError(res))
         .then(response => {
           this.auth_token = response["x-authtoken"];
           this.user = response["user"];
@@ -86,12 +88,7 @@ class MendelBase {
       body: JSON.stringify(token),
       headers: {"Content-Type": "application/json"}
     })
-        .then(res => {
-          if (res.status != 200) {
-            throw {error: res.status, message: res.statusText};
-          }
-          return res.json();
-        })
+        .then(res => this.toJsonOrError(res))
         .then(response => {
           this.auth_token = response["x-authtoken"];
           this.user = response["user"];
@@ -110,17 +107,54 @@ class MendelBase {
       method: "GET",
       headers: {"Content-Type": "application/json"}
     })
-        .then(res => {
-          if (res.status != 200) {
-            throw {error: res.status, message: res.statusText};
-          }
-          return res.json();
-        })
+        .then(res => this.toJsonOrError(res))
         .then(response => {
           this.auth_token = response["x-authtoken"];
           this.user = response["user"];
           return {auth_Token: this.auth_token, user: this.user};
         });
+  }
+
+  get(url) {
+    return fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
+    })
+        .then(res => this.toJsonOrError(res))
+  }
+
+  getAuthenticate(url) {
+    this.checkAuthenticated();
+    return this.get(url)
+  }
+
+  put(url, data) {
+    this.checkAuthenticated();
+    return fetch(url, {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
+    })
+        .then(res => this.toJsonOrError(res))
+  }
+
+  post(url, data) {
+    this.checkAuthenticated();
+    return fetch(url, {
+      method: "POST",
+      body: data ? JSON.stringify(data) : null,
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
+    })
+        .then(res => this.toJsonOrError(res))
   }
 }
 
