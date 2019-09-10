@@ -38,8 +38,7 @@ class MendelBase {
    */
   constructor(base_url) {
     let url = new URL(base_url);
-    this.base_url = `${url.protocol}://${url.host}`+url.pathname;
-
+    this.base_url = `${url.protocol}://${url.host}` + url.pathname;
   }
 
   /**
@@ -47,7 +46,7 @@ class MendelBase {
    */
   checkAuthenticated() {
     if (this.auth_token == null) {
-      throw "Authentication reqired before make any Mendel BIO API call";
+      throw {error: 300, message: "Authentication required before make any Mendel BIO API call"};
     }
   }
 
@@ -58,16 +57,21 @@ class MendelBase {
    */
 
   login(token) {
-    return fetch(this.base_url  + "/login/firebase", {
+    return fetch(this.base_url + "/login/firebase", {
       method: "POST",
       body: JSON.stringify(token),
       headers: {"Content-Type": "application/json"}
     })
-        .then(res => res.json())
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
+        })
         .then(response => {
           this.auth_token = response["x-authtoken"];
           this.user = response["user"];
-          return {auth_Token: this.auth_Token, user: this.user};
+          return {authToken: this.auth_Token, user: this.user};
         });
   }
 
@@ -82,7 +86,12 @@ class MendelBase {
       body: JSON.stringify(token),
       headers: {"Content-Type": "application/json"}
     })
-        .then(res => res.json())
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
+        })
         .then(response => {
           this.auth_token = response["x-authtoken"];
           this.user = response["user"];
@@ -102,12 +111,19 @@ class MendelBase {
       body: JSON.stringify({email: email}),
       headers: {"Content-Type": "application/json"}
     })
-        .then(res => res.json())
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
+        })
         .then(response => {
           this.auth_token = response["x-authtoken"];
           this.user = response["user"];
           return {auth_Token: this.auth_Token, user: this.user};
         });
+
+
   }
 }
 

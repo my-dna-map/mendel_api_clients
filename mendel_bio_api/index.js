@@ -64,10 +64,13 @@ class MendelBioApi extends MendelBase {
         "x-authtoken": this.auth_token
       }
     })
-        .then(res => res.json())
-        .then(response => {
-          return response;
-        });
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
+        })
+       
   }
 
   /**
@@ -83,10 +86,13 @@ class MendelBioApi extends MendelBase {
         "x-authtoken": this.auth_token
       }
     })
-        .then(res => res.json())
-        .then(response => {
-          return response;
-        });
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
+        })
+       
   }
 
   /**
@@ -113,12 +119,11 @@ class MendelBioApi extends MendelBase {
         "x-authtoken": this.auth_token
       }
     })
-        .then(res => res.json())
-        .then(response => {
-          return response;
-        })
-        .catch(e => {
-          console.log(e)
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
         })
   }
 
@@ -135,10 +140,13 @@ class MendelBioApi extends MendelBase {
         "x-authtoken": this.auth_token
       }
     })
-        .then(res => res.json())
-        .then(response => {
-          return response;
-        });
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
+        })
+       
   }
 
   /**
@@ -157,10 +165,13 @@ class MendelBioApi extends MendelBase {
         "x-authtoken": this.auth_token
       }
     })
-        .then(res => res.json())
-        .then(response => {
-          return response;
-        });
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
+        })
+       
   }
 
   /**
@@ -184,10 +195,13 @@ class MendelBioApi extends MendelBase {
         "x-authtoken": this.auth_token
       }
     })
-        .then(res => res.json())
-        .then(response => {
-          return response;
-        });
+        .then(res => {
+          if (res.status != 200) {
+            throw {error: res.status, message: res.statusText};
+          }
+          return res.json();
+        })
+       
   }
 }
 

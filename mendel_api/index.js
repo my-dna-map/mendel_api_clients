@@ -20,7 +20,7 @@ class MendelApi extends MendelBase {
     this.base_url = base_url;
   }
 
-  static getContacts(accountId) {
+  getContacts(accountId) {
     return fetch(`${api}/accounts/${accountId}/contacts`, {
       method: 'GET',
       headers: {
@@ -30,7 +30,7 @@ class MendelApi extends MendelBase {
     })
   }
 
-  static updateUser({accountId, contactId, data}) {
+  updateUser({accountId, contactId, data}) {
     return fetch(`${api}/accounts/${accountId}/contacts/${contactId}`, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -41,7 +41,7 @@ class MendelApi extends MendelBase {
     })
   }
 
-  static registerPush({token}) {
+  registerPush({token}) {
     // TODO
     return Promise.resolve()
   }
