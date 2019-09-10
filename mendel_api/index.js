@@ -10,25 +10,62 @@ const MendelBase = require('../MendelBase');
  */
 class MendelApi extends MendelBase {
 
-  /******************************************* ORDERS IMPLEMENTATION **************************************/
+  /******************************************* ACCOUNTS IMPLEMENTATION *******************************/
+
+  Accounts = {
+
+    /**
+     *
+     * @returns {*}
+     */
+    get() {
+      return this.parent.getAuthenticate(`${api}/accounts`);
+    },
+
+
+    /**
+     *
+     * @param accountId
+     * @param contactId
+     * @param data
+     * @returns {Promise<Response>}
+     */
+    update({accountId, data}) {
+      return this.parent.put(`${api}/accounts/${accountId}`, data);
+    },
+
+    /**
+     *
+     * @param accountId
+     * @param contactId
+     * @returns {Promise<Response>}
+     */
+    getById({accountId}) {
+      return this.parent.getAuthenticate(`${api}/accounts/${accountId}`)
+    },
+
+    /**
+     *
+     * @param firstname
+     * @param lastname
+     * @returns {Promise<Response>}
+     */
+    add({firstname, lastname}) {
+      return this.parent.post(`${api}/accounts/`, {firstname, lastname});
+    }
+    ,
+  };
+  /******************************************* CONTACTS IMPLEMENTATION *******************************/
 
   Contacts = {
 
-    /******************************************* CONTACTS IMPLEMENTATION *******************************/
     /**
      *
      * @param accountId
      * @returns {Promise<Response>}
      */
     get(accountId) {
-      return fetch(`${api}/accounts/${accountId}/contacts`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "x-authtoken": this.auth_token
-        }
-      })
-          .then(res => this.toJsonOrError(res))
+      return this.parent.getAuthenticate(`${api}/accounts/${accountId}/contacts`);
     },
 
     /**
@@ -39,15 +76,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     update({accountId, contactId, data}) {
-      return fetch(`${api}/accounts/${accountId}/contacts/${contactId}`, {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          "x-authtoken": this.auth_token
-        }
-      })
-          .then(res => this.toJsonOrError(res))
+      return this.parent.put(`${api}/accounts/${accountId}/contacts/${contactId}`, data);
     },
 
     /**
@@ -57,14 +86,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     getById({accountId, contactId}) {
-      return fetch(`${api}/accounts/${accountId}/contacts/${contactId}`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "x-authtoken": this.auth_token
-        }
-      })
-          .then(res => this.toJsonOrError(res))
+      return this.parent.getAuthenticate(`${api}/accounts/${accountId}/contacts/${contactId}`)
     },
 
     /**
@@ -73,51 +95,25 @@ class MendelApi extends MendelBase {
      * @param lastname
      * @returns {Promise<Response>}
      */
-    add({accountId, firstname, lastname}) {
-      return fetch(`${api}/accounts/${accountId}/contacts`, {
-        method: 'POST',
-        body: JSON.stringify({firstname, lastname}),
-        headers: {
-          "Content-Type": "application/json",
-          "x-authtoken": this.auth_token
-        }
-      })
-          .then(res => this.toJsonOrError(res))
-    },
+    add({accountId, firstname, lastname, email}) {
+      return this.parent.post(`${api}/accounts/${accountId}/contacts`, {firstname, lastname, email});
+    }
+    ,
   };
-  Order = {
+
+  /******************************************* ORDERS IMPLEMENTATION **************************************/
+  Orders = {
+
+
     add({accountId, contactid}) {
-      return fetch(`${api}/accounts/${accountId}/contacts/${contactid}/orders`, {
-        method: 'POST',
-        body: JSON.stringify({contactid}),
-        headers: {
-          "Content-Type": "application/json",
-          "x-authtoken": this.auth_token
-        }
-      })
-          .then(res => this.toJsonOrError(res))
+      return this.parent.post(`${api}/accounts/${accountId}/contacts/${contactid}/orders`, {contactid});
     },
     update({accountId, contactId, orderId, data}) {
-      return fetch(`${api}/accounts/${accountId}/contacts/${contactId}/orders/${orderId}`, {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          "x-authtoken": this.auth_token
-        }
-      })
-          .then(res => this.toJsonOrError(res))
+      return this.parent.put(`${api}/accounts/${accountId}/contacts/${contactId}/orders/${orderId}`, data);
     },
 
     getById({accountId, contactId, orderId}) {
-      return fetch(`${api}/accounts/${accountId}/contacts/${contactId}/orders/${orderId}`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "x-authtoken": this.auth_token
-        }
-      })
-          .then(res => this.toJsonOrError(res))
+      return this.parent.get(`${api}/accounts/${accountId}/contacts/${contactId}/orders/${orderId}`);
     },
   };
 
@@ -128,6 +124,9 @@ class MendelApi extends MendelBase {
   constructor(base_url) {
     super(base_url);
     this.base_url = base_url;
+    this.Contacts.parent = this;
+    this.Orders.parent = this;
+    this.Accounts.parent = this;
   }
 
   /**

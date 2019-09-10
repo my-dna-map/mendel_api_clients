@@ -131,7 +131,6 @@ class MendelBioApi extends MendelBase {
     file({medicalInfo, fileName}) {
       return this.parent.getAuthenticate(this.parent.base_url + `/minfo/${medicalInfo.objectId}/files/${fileName}`)
     },
-
   };
 
   /**
