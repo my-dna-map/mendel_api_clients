@@ -10,7 +10,7 @@ let rnd = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-client.fakeLogin("mario.rodriguez@mydnamap.com").then(result => {
+client.loginFake("mario.rodriguez@mydnamap.com").then(result => {
 
   let sexs = ["female", "male"];
   let countries = ["ARG", "ESP", "CUB", "USA", "CHI"];
