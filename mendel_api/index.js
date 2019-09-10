@@ -1,59 +1,64 @@
-class API {
-  static setAuthToken = authToken => {
-    _authToken = authToken
-  }
+// verify fetch exist. In case NO then we are running in node js so use node-fetch implementation
 
-  static getAuthToken = () => _authToken
+"use strict";
 
-  static login(token) {
-    return fetch(`${api}/login/firebase`, {
-      method: 'POST',
-      body: token,
-      headers: createHeaders({ 'Content-Type': 'text/plain' }, false)
-    }).then(async response => {
-      if (response.status !== 200) {
-        throw new Error('Login response not valid')
-      }
+const MendelBase = require('../MendelBase');
 
-      const { authToken, user } = await response.json()
-      if (!authToken) {
-        throw new Error(
-            'Login could not be completed. Mendel Auth Token is missing.'
-        )
-      }
-      console.info(user)
-      API.setAuthToken(authToken)
-      return { authToken, user }
-    })
-  }
+/**
+ * Mendel API client interface
+ */
+class MendelApi extends MendelBase {
+  /**
+   * Base Url for all Mendel BIO API calls.
+   * @type {string`}
+   */
+  base_url = null;
 
-  static registerUser({ token, firstname, lastname }) {
-    return API.login(token).then(() => {
-      return fetch(`${api}/accounts`, {
-        method: 'POST',
-        body: JSON.stringify({ firstname, lastname }),
-        headers: createHeaders()
-      })
-    })
+
+  constructor(base_url) {
+    super(base_url);
+    this.base_url = base_url;
   }
 
   static getContacts(accountId) {
     return fetch(`${api}/accounts/${accountId}/contacts`, {
       method: 'GET',
-      headers: createHeaders()
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
     })
   }
 
-  static updateUser({ accountId, contactId, data }) {
+  static updateUser({accountId, contactId, data}) {
     return fetch(`${api}/accounts/${accountId}/contacts/${contactId}`, {
       method: 'PUT',
       body: JSON.stringify(data),
-      headers: createHeaders()
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
     })
   }
 
-  static registerPush({ token }) {
+  static registerPush({token}) {
     // TODO
     return Promise.resolve()
   }
+
+  registerUser({token, firstname, lastname}) {
+    return fetch(`${api}/accounts`, {
+      method: 'POST',
+      body: JSON.stringify({firstname, lastname}),
+      headers: {
+        "Content-Type": "application/json",
+        "x-authtoken": this.auth_token
+      }
+    });
+
+  }
 }
+
+//export default MendelApi;
+
+module.exports = MendelApi;

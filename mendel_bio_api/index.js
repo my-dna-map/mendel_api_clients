@@ -32,7 +32,7 @@ class MendelBioApi extends MendelBase {
     let vars = "";
     let parameters = "";
 
-    let search_url_part = `mendel/bio/v1/minfo/`;
+    let search_url_part = `/minfo/`;
 
     if (max) {
       search_url_part += `?max=${max}`;
@@ -51,7 +51,7 @@ class MendelBioApi extends MendelBase {
       values.forEach((e, index) => {
         parameters += `&${e}=${args[index]}`;
       });
-      search_url_part = `mendel/bio/v1/minfo/?search=${search}${parameters}`;
+      search_url_part = `/minfo/?search=${search}${parameters}`;
       if (max) {
         search_url_part += `&max=${max}`;
       }
@@ -76,7 +76,7 @@ class MendelBioApi extends MendelBase {
    * @returns {Promise<any>}
    */
   getByMedicalInfoId(objectId) {
-    return fetch(this.base_url + `mendel/bio/v1/minfo/${objectId}`, {
+    return fetch(this.base_url + `/minfo/${objectId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -105,7 +105,7 @@ class MendelBioApi extends MendelBase {
       "Parameters medical_info.objectId or medical_info.dnaId can't be null or empty";
     }
 
-    return fetch(this.base_url + `mendel/bio/v1/minfo/${medical_info.objectId}`, {
+    return fetch(this.base_url + `/minfo/${medical_info.objectId}`, {
       method: "PUT",
       body: JSON.stringify({medical_info: medical_info}),
       headers: {
@@ -128,7 +128,7 @@ class MendelBioApi extends MendelBase {
    * @returns {Promise<any>} Returns the created Medical Info object
    */
   createMedicalInfo(dnaId) {
-    return fetch(this.base_url + `mendel/bio/v1/minfo/${dnaId}`, {
+    return fetch(this.base_url + `/minfo/${dnaId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -149,13 +149,12 @@ class MendelBioApi extends MendelBase {
    */
   uploadFile(mi, buff, fileName) {
     let parameters = {Name: fileName, Body: [...buff]};
-    return fetch(this.base_url + `mendel/bio/v1/minfo/${mi.objectId}/files`, {
+    return fetch(this.base_url + `/minfo/${mi.objectId}/files`, {
       method: "POST",
       body: JSON.stringify(parameters),
       headers: {
         "Content-Type": "application/json",
         "x-authtoken": this.auth_token
-
       }
     })
         .then(res => res.json())
@@ -178,7 +177,7 @@ class MendelBioApi extends MendelBase {
                                       Body: { type: 'Buffer', data: [Array] }}}
    */
   getFile(mi, fileName) {
-    return fetch(this.base_url + `mendel/bio/v1/minfo/${mi.objectId}/file/${fileName}`, {
+    return fetch(this.base_url + `/minfo/${mi.objectId}/file/${fileName}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

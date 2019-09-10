@@ -2,7 +2,7 @@ const BioClient = new require("./mendel_bio_api");
 const uuidv4 = require('uuid/v4');
 const fs = require('fs');
 
-const client = new BioClient("http://localhost:3000/");
+const client = new BioClient("http://localhost:3000/mendel/bio/v1");
 
 let rnd = (min, max) => {
   min = Math.ceil(min);

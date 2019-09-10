@@ -20,14 +20,26 @@ class MendelBase {
    */
   auth_token = null;
 
+  /**
+   *
+   * @type {user}
+   */
   user = null;
+
+  /**
+   *
+   * @type {string}
+   */
+  login_url_part = null;
 
   /**
    * MendelBioApi constructor
    * @param base_url
    */
   constructor(base_url) {
-    this.base_url = base_url;
+    let url = new URL(base_url);
+    this.base_url = `${url.protocol}://${url.host}`+url.pathname;
+
   }
 
   /**
@@ -46,7 +58,7 @@ class MendelBase {
    */
 
   login(token) {
-    return fetch(this.base_url + "mendel/bio/v1/login/firebase", {
+    return fetch(this.base_url  + "/login/firebase", {
       method: "POST",
       body: JSON.stringify(token),
       headers: {"Content-Type": "application/json"}
@@ -65,7 +77,7 @@ class MendelBase {
    * @returns {Promise<boolean>} True if the valid token is received, false ioc.
    */
   login_vault(token) {
-    return fetch(this.base_url + "mendel/bio/v1/login/vault", {
+    return fetch(this.base_url + "/login/vault", {
       method: "POST",
       body: JSON.stringify(token),
       headers: {"Content-Type": "application/json"}
@@ -85,7 +97,7 @@ class MendelBase {
    */
 
   loginFake(email) {
-    return fetch(this.base_url + "mendel/bio/v1/login/fake", {
+    return fetch(this.base_url + "/login/fake", {
       method: "POST",
       body: JSON.stringify({email: email}),
       headers: {"Content-Type": "application/json"}
