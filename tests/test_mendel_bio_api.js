@@ -34,12 +34,12 @@ client.loginFake("mario.rodriguez@mydnamap.com")
               .then(res => {
                 res.forEach(mi => {
                   client.getByMedicalInfoId(mi.objectId)
-                      .then(mi => {
+                      .then(medicalInfo => {
                         let files = ["test1.bam", "test2.bai"];
-                        files.forEach(f => {
-                          client.uploadFile(mi, fs.readFileSync(`./files/${f}`), f)
+                        files.forEach(fileName => {
+                          client.uploadFile({medicalInfo, buffer: fs.readFileSync(`./files/${fileName}`), fileName})
                               .then(mi => {
-                                client.getFile(mi, f)
+                                client.getFile({medicalInfo: mi, fileName})
                                     .then(file => {
                                       console.log(file)
                                     });

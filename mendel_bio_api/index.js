@@ -151,13 +151,13 @@ class MendelBioApi extends MendelBase {
 
   /**
    *  Upload an file associated with an Medical Information object
-   * @param mi  Medical Info object to whom file will associated
-   * @param buff File buffer
+   * @param medicalInfo  Medical Info object to whom file will associated
+   * @param buffer File buffer
    * @param fileName File Name
    */
-  uploadFile(mi, buff, fileName) {
-    let parameters = {Name: fileName, Body: [...buff]};
-    return fetch(this.base_url + `/minfo/${mi.objectId}/files`, {
+  uploadFile({medicalInfo, buffer, fileName}) {
+    let parameters = {Name: fileName, Body: [...buffer]};
+    return fetch(this.base_url + `/minfo/${medicalInfo.objectId}/files`, {
       method: "POST",
       body: JSON.stringify(parameters),
       headers: {
@@ -176,7 +176,7 @@ class MendelBioApi extends MendelBase {
 
   /**
    *  return all information about a file including the bytes.
-   * @param mi  Medical Info Object to whom the file will be required.
+   * @param {medicalInfo  Medical Info Object to whom the file will be required.
    * @param fileName : File Name
    * @returns {Promise<any>} {Name: File Name,
    *                          Body: { AcceptRanges: 'bytes',
@@ -187,8 +187,8 @@ class MendelBioApi extends MendelBase {
                                       Metadata: {},
                                       Body: { type: 'Buffer', data: [Array] }}}
    */
-  getFile(mi, fileName) {
-    return fetch(this.base_url + `/minfo/${mi.objectId}/file/${fileName}`, {
+  getFile({medicalInfo, fileName}) {
+    return fetch(this.base_url + `/minfo/${medicalInfo.objectId}/file/${fileName}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

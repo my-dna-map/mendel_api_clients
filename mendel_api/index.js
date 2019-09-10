@@ -20,6 +20,11 @@ class MendelApi extends MendelBase {
     this.base_url = base_url;
   }
 
+  /**
+   *
+   * @param accountId
+   * @returns {Promise<Response>}
+   */
   getContacts(accountId) {
     return fetch(`${api}/accounts/${accountId}/contacts`, {
       method: 'GET',
@@ -30,6 +35,13 @@ class MendelApi extends MendelBase {
     })
   }
 
+  /**
+   *
+   * @param accountId
+   * @param contactId
+   * @param data
+   * @returns {Promise<Response>}
+   */
   updateUser({accountId, contactId, data}) {
     return fetch(`${api}/accounts/${accountId}/contacts/${contactId}`, {
       method: 'PUT',
@@ -41,12 +53,24 @@ class MendelApi extends MendelBase {
     })
   }
 
-  registerPush({token}) {
+  /**
+   *
+   * @param token
+   * @returns {Promise<void>}
+   */
+  registerPush() {
     // TODO
     return Promise.resolve()
   }
 
-  registerUser({token, firstname, lastname}) {
+  /**
+   *
+   * @param token
+   * @param firstname
+   * @param lastname
+   * @returns {Promise<Response>}
+   */
+  registerUser({firstname, lastname}) {
     return fetch(`${api}/accounts`, {
       method: 'POST',
       body: JSON.stringify({firstname, lastname}),
