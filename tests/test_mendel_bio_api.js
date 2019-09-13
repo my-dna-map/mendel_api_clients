@@ -35,6 +35,7 @@ client.loginFake("mario.rodriguez@mydnamap.com")
                 res.forEach(mi => {
                   client.MedicalInfo.getById(mi.objectId)
                       .then(medicalInfo => {
+                        client.MedicalInfo.update(medicalInfo);
                         let files = ["test1.bam", "test2.bai"];
                         files.forEach(fileName => {
                           client.MedicalInfo.uploadFile({medicalInfo, buffer: fs.readFileSync(`./files/${fileName}`), fileName})
@@ -48,11 +49,14 @@ client.loginFake("mario.rodriguez@mydnamap.com")
                         })
                       })
                       .catch(e => console.log(e))
+
+
+                      })
                 })
-              })
-              .catch(e => console.log(e));
+                    .catch(e => console.log(e));
+              }
         }
-      });
+      );
     })
     .catch(e => {
       console.log(e)
