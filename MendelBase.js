@@ -71,7 +71,7 @@ class MendelBase {
     })
         .then(res => this.toJsonOrError(res))
         .then(response => {
-          this.auth_token = response["x-authtoken"];
+          this.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
           return {authToken: this.auth_Token, user: this.user};
         });
@@ -90,7 +90,7 @@ class MendelBase {
     })
         .then(res => this.toJsonOrError(res))
         .then(response => {
-          this.auth_token = response["x-authtoken"];
+          this.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
           return {auth_Token: this.auth_Token, user: this.user};
         });
@@ -109,7 +109,7 @@ class MendelBase {
     })
         .then(res => this.toJsonOrError(res))
         .then(response => {
-          this.auth_token = response["x-authtoken"];
+          this.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
           return {auth_Token: this.auth_token, user: this.user};
         });
