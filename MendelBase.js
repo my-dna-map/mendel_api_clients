@@ -115,9 +115,10 @@ class MendelBase {
         });
   }
 
-  get(url) {
+  get(url,body = null) {
     return fetch(url, {
       method: "GET",
+      body:body,
       headers: {
         "Content-Type": "application/json",
         "x-authtoken": this.auth_token

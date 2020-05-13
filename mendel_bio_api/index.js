@@ -19,6 +19,11 @@ class MendelBioApi extends MendelBase {
 
   MedicalInfo = {
 
+
+
+    create () {
+      return this.parent.post(this.parent.base_url + "/minfo");
+    },
     /**
      *
      * @param search
@@ -27,39 +32,9 @@ class MendelBioApi extends MendelBase {
      * @returns {*}
      */
 
-    get(search, max, ...args) {
-
-      let varNameRegExp = new RegExp("[!][a-zA-Z]*", "g");
-      let valuesRegExp = new RegExp("[:][a-zA-Z]*", "g");
-
-      let values = [];
-      let vars = "";
-      let parameters = "";
-
-      let search_url_part = `/minfo/`;
-
-      if (max) {
-        search_url_part += `?max=${max}`;
-      }
-
-      if (search) {
-        while ((vars = valuesRegExp.exec(search)) !== null) {
-          values.push(vars[0]);
-        }
-
-        if (values.length != args.length) {
-          throw "Invalid variables and values length in get API call";
-        }
-
-        values.forEach((e, index) => {
-          parameters += `&${e}=${args[index]}`;
-        });
-        search_url_part = `/minfo/?search=${search}${parameters}`;
-        if (max) {
-          search_url_part += `&max=${max}`;
-        }
-      }
-      return this.parent.get(this.parent.base_url + search_url_part);
+    get(search) {
+      let search_url_part = `/minfo/all`
+      return this.parent.post(this.parent.base_url + search_url_part,search);
     },
 
     /**
@@ -84,9 +59,9 @@ class MendelBioApi extends MendelBase {
         throw "Invalid parameter medical_info in updateMedicalInfo method. Parameter can't be null or empty";
       }
 
-      if (!medical_info.objectId || !medical_info.dnaId) {
+      if (!medical_info.objectId) {
         throw "Invalid parameter medical_info in updateMedicalInfo method. " +
-        "Parameters medical_info.objectId or medical_info.dnaId can't be null or empty";
+        "Parameters medical_info.objectId can't be null or empty";
       }
 
       return this.parent.put(this.parent.base_url + `/minfo/${medical_info.objectId}`, medical_info)
