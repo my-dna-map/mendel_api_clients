@@ -38,7 +38,7 @@ class MendelBase {
    */
   constructor(base_url) {
     let url = new URL(base_url);
-    this.base_url = `${url.protocol}://${url.host}` + url.pathname;
+    this.base_url = `${url.protocol}//${url.host}` + url.pathname;
   }
 
   toJsonOrError(res) {
@@ -115,15 +115,20 @@ class MendelBase {
         });
   }
 
-  get(url,body = null) {
-    return fetch(url, {
+  get(url, body = null) {
+    let options = {
       method: "GET",
-      body:body,
+      body: body,
       headers: {
         "Content-Type": "application/json",
-        "x-authtoken": this.auth_token
       }
-    })
+    }
+
+    if (this.auth_token) {
+      options.headers["x-authtoken"] = this.auth_token
+    }
+
+    return fetch(url, options)
         .then(res => this.toJsonOrError(res))
   }
 
@@ -134,27 +139,39 @@ class MendelBase {
 
   put(url, data) {
     this.checkAuthenticated();
-    return fetch(url, {
+
+    let options = {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
-        "x-authtoken": this.auth_token
+
       }
-    })
+    }
+
+    if (this.auth_token) {
+      options.headers["x-authtoken"] = this.auth_token
+    }
+
+    return fetch(url, options)
         .then(res => this.toJsonOrError(res))
   }
 
   post(url, data) {
     this.checkAuthenticated();
-    return fetch(url, {
+    let options = {
       method: "POST",
       body: data ? JSON.stringify(data) : null,
       headers: {
         "Content-Type": "application/json",
         "x-authtoken": this.auth_token
       }
-    })
+    }
+
+    if (this.auth_token) {
+      options.headers["x-authtoken"] = this.auth_token
+    }
+    return fetch(url, options)
         .then(res => this.toJsonOrError(res))
   }
 }

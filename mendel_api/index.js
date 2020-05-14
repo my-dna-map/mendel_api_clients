@@ -22,7 +22,6 @@ class MendelApi extends MendelBase {
       return this.parent.getAuthenticate(`${api}/accounts`);
     },
 
-
     /**
      *
      * @param accountId
@@ -97,13 +96,11 @@ class MendelApi extends MendelBase {
      */
     add({accountId, firstname, lastname, email}) {
       return this.parent.post(`${api}/accounts/${accountId}/contacts`, {firstname, lastname, email});
-    }
-    ,
+    },
   };
 
   /******************************************* ORDERS IMPLEMENTATION **************************************/
   Orders = {
-
 
     add({accountId, contactid}) {
       return this.parent.post(`${api}/accounts/${accountId}/contacts/${contactid}/orders`, {contactid});
