@@ -128,7 +128,7 @@ class MendelBase {
       options.headers["x-authtoken"] = this.auth_token
     }
 
-    return fetch(url, options)
+    return fetch(this.base_url+url, options)
         .then(res => this.toJsonOrError(res))
   }
 
@@ -153,7 +153,7 @@ class MendelBase {
       options.headers["x-authtoken"] = this.auth_token
     }
 
-    return fetch(url, options)
+    return fetch(this.base_url+url, options)
         .then(res => this.toJsonOrError(res))
   }
 
@@ -171,7 +171,7 @@ class MendelBase {
     if (this.auth_token) {
       options.headers["x-authtoken"] = this.auth_token
     }
-    return fetch(url, options)
+    return fetch(this.base_url+url, options)
         .then(res => this.toJsonOrError(res))
   }
 }
