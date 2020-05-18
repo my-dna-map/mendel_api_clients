@@ -16,6 +16,8 @@ let rnd = (min, max) => {
 };
 
 async function test() {
+
+  var dockerNames = require('docker-names');
   client.loginFake("mario.rodriguez@mydnamap.com")
       .then(async (result) => {
 
@@ -29,6 +31,7 @@ async function test() {
           } else {
             mi = mi[0];
           }
+          mi.friendlyName = dockerNames.getRandomName();
           mi.dnaId = element.Codigo;
           mi.novogenId = element.Cod_NovoGen;
           mi.sampleName = element.Nombre_Muestra;

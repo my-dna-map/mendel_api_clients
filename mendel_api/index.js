@@ -19,7 +19,7 @@ class MendelApi extends MendelBase {
      * @returns {*}
      */
     get() {
-      return this.parent.getAuthenticate(`${api}/accounts`);
+      return this.parent.getAuthenticate(`/accounts`);
     },
 
     /**
@@ -30,7 +30,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     update({accountId, data}) {
-      return this.parent.put(`${api}/accounts/${accountId}`, data);
+      return this.parent.put(`/accounts/${accountId}`, data);
     },
 
     /**
@@ -40,7 +40,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     getById({accountId}) {
-      return this.parent.getAuthenticate(`${api}/accounts/${accountId}`)
+      return this.parent.getAuthenticate(`/accounts/${accountId}`)
     },
 
     /**
@@ -50,7 +50,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     add({firstname, lastname}) {
-      return this.parent.post(`${api}/accounts/`, {firstname, lastname});
+      return this.parent.post(`/accounts/`, {firstname, lastname});
     }
     ,
   };
@@ -64,7 +64,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     get(accountId) {
-      return this.parent.getAuthenticate(`${api}/accounts/${accountId}/contacts`);
+      return this.parent.getAuthenticate(`/accounts/${accountId}/contacts`);
     },
 
     /**
@@ -75,7 +75,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     update({accountId, contactId, data}) {
-      return this.parent.put(`${api}/accounts/${accountId}/contacts/${contactId}`, data);
+      return this.parent.put(`/accounts/${accountId}/contacts/${contactId}`, data);
     },
 
     /**
@@ -85,7 +85,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     getById({accountId, contactId}) {
-      return this.parent.getAuthenticate(`${api}/accounts/${accountId}/contacts/${contactId}`)
+      return this.parent.getAuthenticate(`/accounts/${accountId}/contacts/${contactId}`)
     },
 
     /**
@@ -95,7 +95,7 @@ class MendelApi extends MendelBase {
      * @returns {Promise<Response>}
      */
     add({accountId, firstname, lastname, email}) {
-      return this.parent.post(`${api}/accounts/${accountId}/contacts`, {firstname, lastname, email});
+      return this.parent.post(`/accounts/${accountId}/contacts`, {firstname, lastname, email});
     },
   };
 
@@ -103,14 +103,14 @@ class MendelApi extends MendelBase {
   Orders = {
 
     add({accountId, contactid}) {
-      return this.parent.post(`${api}/accounts/${accountId}/contacts/${contactid}/orders`, {contactid});
+      return this.parent.post(`/accounts/${accountId}/contacts/${contactid}/orders`, {contactid});
     },
     update({accountId, contactId, orderId, data}) {
-      return this.parent.put(`${api}/accounts/${accountId}/contacts/${contactId}/orders/${orderId}`, data);
+      return this.parent.put(`/accounts/${accountId}/contacts/${contactId}/orders/${orderId}`, data);
     },
 
     getById({accountId, contactId, orderId}) {
-      return this.parent.get(`${api}/accounts/${accountId}/contacts/${contactId}/orders/${orderId}`);
+      return this.parent.get(`/accounts/${accountId}/contacts/${contactId}/orders/${orderId}`);
     },
   };
 

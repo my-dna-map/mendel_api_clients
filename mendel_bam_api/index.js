@@ -55,10 +55,29 @@ class MendelBAMApi extends MendelBase {
     }
   }
 
+  Worflows = {
+
+    all() {
+      return this.parent.get("/worflows/all");
+    },
+
+    getById(id) {
+      return this.parent.get(`/workflows/${id}`);
+    },
+
+
+    start(workflowId, parameters) {
+      return this.parent.post(`/workflows/${workflowId}/start`, parameters);
+    },
+
+  }
+
   constructor(base_url) {
     super(base_url);
     this.base_url = base_url;
     this.Context.parent = this;
+    this.Cluster.parent = this;
+    this.Worflows.parent = this;
   }
 
 }

@@ -22,7 +22,7 @@ class MendelBioApi extends MendelBase {
 
 
     create () {
-      return this.parent.post(this.parent.base_url + "/minfo");
+      return this.parent.post( "/minfo");
     },
     /**
      *
@@ -34,7 +34,7 @@ class MendelBioApi extends MendelBase {
 
     get(search) {
       let search_url_part = `/minfo/all`
-      return this.parent.post(this.parent.base_url + search_url_part,search);
+      return this.parent.post( search_url_part,search);
     },
 
     /**
@@ -44,7 +44,7 @@ class MendelBioApi extends MendelBase {
      */
 
     getById(objectId) {
-      return this.parent.get(this.parent.base_url + `/minfo/${objectId}`)
+      return this.parent.get( `/minfo/${objectId}`)
     },
 
     /**
@@ -64,7 +64,7 @@ class MendelBioApi extends MendelBase {
         "Parameters medical_info.objectId can't be null or empty";
       }
 
-      return this.parent.put(this.parent.base_url + `/minfo/${medical_info.objectId}`, medical_info)
+      return this.parent.put(`/minfo/${medical_info.objectId}`, medical_info)
     },
 
     /**
@@ -74,7 +74,7 @@ class MendelBioApi extends MendelBase {
      */
 
     add(dnaId) {
-      return this.parent.post(this.parent.base_url + `/minfo/${dnaId}`);
+      return this.parent.post( `/minfo/${dnaId}`);
 
     },
 
@@ -86,7 +86,7 @@ class MendelBioApi extends MendelBase {
      */
 
     uploadFile({medicalInfo, buffer, fileName}) {
-      return this.parent.put(this.parent.base_url + `/minfo/${medicalInfo.objectId}/files`, {Name: fileName, Body: [...buffer]});
+      return this.parent.put( `/minfo/${medicalInfo.objectId}/files`, {Name: fileName, Body: [...buffer]});
     },
 
     /**
@@ -104,7 +104,7 @@ class MendelBioApi extends MendelBase {
      */
 
     file({medicalInfo, fileName}) {
-      return this.parent.getAuthenticate(this.parent.base_url + `/minfo/${medicalInfo.objectId}/files/${fileName}`)
+      return this.parent.getAuthenticate( `/minfo/${medicalInfo.objectId}/files/${fileName}`)
     },
   };
 

@@ -103,18 +103,48 @@ class MendelBase {
    */
 
   loginFake(email) {
-    return fetch(this.base_url.replace("v1", "dev") + `/login/fake/${email}`, {
-      method: "GET",
-      headers: {"Content-Type": "application/json"}
-    })
-        .then(res => this.toJsonOrError(res))
+    return this.get(this.base_url.replace("v1", "dev") + `/login/fake/${email}`)
         .then(response => {
           this.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
           return {auth_Token: this.auth_token, user: this.user};
         });
+
+
+    /*   return fetch(this.base_url.replace("v1", "dev") + `/login/fake/${email}`, {
+         method: "GET",
+         headers: {"Content-Type": "application/json"}
+       })
+           .then(res => this.toJsonOrError(res))
+           .then(response => {
+             this.auth_token = response["authToken"] || response["x-authtoken"];
+             this.user = response["user"];
+             return {auth_Token: this.auth_token, user: this.user};
+           });
+     */
   }
 
+  /*
+  async loginFake(email) {
+    try {
+      let res = await fetch(this.base_url.replace("v1", "dev") + `/login/fake/${email}`, {
+        method: "GET",
+        mode: 'no-cors',
+        headers: {"Content-Type": "application/json"}
+      });
+      if (res) {
+        res = this.toJsonOrError(res);
+        this.auth_token = res["authToken"] || res["x-authtoken"];
+        this.user = res["user"];
+        return {authToken: this.auth_Token, user: this.user};
+      };
+      return null;
+    } catch (ex) {
+      throw ex;
+    }
+
+  }
+*/
   get(url, body = null) {
     let options = {
       method: "GET",
@@ -128,7 +158,8 @@ class MendelBase {
       options.headers["x-authtoken"] = this.auth_token
     }
 
-    return fetch(this.base_url+url, options)
+    let realurl = url.indexOf('http://') != -1 ? url :  this.base_url + url;
+    return fetch(realurl, options)
         .then(res => this.toJsonOrError(res))
   }
 
@@ -153,7 +184,7 @@ class MendelBase {
       options.headers["x-authtoken"] = this.auth_token
     }
 
-    return fetch(this.base_url+url, options)
+    return fetch(this.base_url + url, options)
         .then(res => this.toJsonOrError(res))
   }
 
@@ -171,7 +202,7 @@ class MendelBase {
     if (this.auth_token) {
       options.headers["x-authtoken"] = this.auth_token
     }
-    return fetch(this.base_url+url, options)
+    return fetch(this.base_url + url, options)
         .then(res => this.toJsonOrError(res))
   }
 }
