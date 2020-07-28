@@ -4,9 +4,9 @@ const fs = require('fs');
 const CSVReader = require('csvtojson');
 
 
-//const client = new BioClient("http://localhost:30005/mendel/bio/v1");
+const client = new BioClient("http://localhost:30005/mendel/bio/v1");
 
-const client = new BioClient("http://ad893ee1785a211eaa283064d9560dea-9bfb09f721e5e4b1.elb.eu-west-2.amazonaws.com/mendel/bio/v1");
+//const client = new BioClient("http://ad893ee1785a211eaa283064d9560dea-9bfb09f721e5e4b1.elb.eu-west-2.amazonaws.com/mendel/bio/v1");
 
 
 let rnd = (min, max) => {
@@ -21,10 +21,17 @@ async function test() {
   client.loginFake("mario.rodriguez@mydnamap.com")
       .then(async (result) => {
 
+        client.MedicalInfo.get({dnaId: "01000056001909173569"})
+            .then(all => {
+              console.log(all);
+
+            });
+
+
+        /*
         let tableFileCodeNames = await CSVReader().fromFile("./codigos.csv");
         for (let e in tableFileCodeNames) {
           let element = tableFileCodeNames[e];
-
           let mi = await client.MedicalInfo.get({dnaId: element.Codigo});
           if (!mi.length) {
             mi = await client.MedicalInfo.create(uuidv4());
@@ -42,7 +49,7 @@ async function test() {
               })
               .catch(e => console.log(e));
         }
-
+*/
         /*
         client.MedicalInfo.get({})
             .then(r => {
