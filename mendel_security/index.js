@@ -29,11 +29,15 @@ class MendelSecurity extends MendelBase {
   }
 
   isValidToken(token) {
-    return this.post("/login/isValidToken",{token:token});
+    return this.post("/token/isValidToken",{token:token});
   }
 
   decode(token) {
-    return this.post("/login/decode",{token:token});
+    return this.post("/token/decode",{token:token});
+  }
+
+  encode(token) {
+    return this.post("/token/encode",{token:token});
   }
 }
 
