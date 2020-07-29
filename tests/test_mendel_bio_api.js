@@ -4,7 +4,7 @@ const fs = require('fs');
 const CSVReader = require('csvtojson');
 
 
-const client = new BioClient("http://localhost:30005/mendel/bio/v1");
+const client = new BioClient("http://localhost:30005/mendel/bio/v1","http://localhost:30010/mendel/security/v1");
 
 //const client = new BioClient("http://ad893ee1785a211eaa283064d9560dea-9bfb09f721e5e4b1.elb.eu-west-2.amazonaws.com/mendel/bio/v1");
 

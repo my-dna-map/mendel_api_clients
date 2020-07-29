@@ -113,8 +113,8 @@ class MendelBioApi extends MendelBase {
    * @param base_url
    */
 
-  constructor(base_url) {
-    super(base_url);
+  constructor(base_url,security_url) {
+    super(base_url,security_url);
     this.base_url = base_url;
     this.MedicalInfo.parent = this;
   }

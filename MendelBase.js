@@ -36,9 +36,15 @@ class MendelBase {
    * MendelBioApi constructor
    * @param base_url
    */
-  constructor(base_url) {
+  constructor(base_url,security_url) {
     let url = new URL(base_url);
     this.base_url = `${url.protocol}//${url.host}` + url.pathname;
+    this.security_url = security_url;
+
+    if (!security_url){
+      this.security_url = this.base_url;
+    }
+
   }
 
   toJsonOrError(res) {
@@ -64,7 +70,7 @@ class MendelBase {
    */
 
   login(token) {
-    return fetch(this.base_url + "/login/firebase", {
+    return fetch(this.security_url + "/login/firebase", {
       method: "POST",
       body: JSON.stringify(token),
       headers: {"Content-Type": "application/json"}
@@ -83,7 +89,7 @@ class MendelBase {
    * @returns {Promise<boolean>} True if the valid token is received, false ioc.
    */
   login_vault(token) {
-    return fetch(this.base_url + "/login/vault", {
+    return fetch(this.security_url + "/login/vault", {
       method: "POST",
       body: JSON.stringify(token),
       headers: {"Content-Type": "application/json"}
@@ -103,48 +109,33 @@ class MendelBase {
    */
 
   loginFake(email) {
-    return this.get(this.base_url.replace("v1", "dev") + `/login/fake/${email}`)
+
+    return this.get(this.security_url.replace("v1", "dev") + `/login/fake/${email}`)
         .then(response => {
           this.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
           return {auth_Token: this.auth_token, user: this.user};
         });
-
-
-    /*   return fetch(this.base_url.replace("v1", "dev") + `/login/fake/${email}`, {
-         method: "GET",
-         headers: {"Content-Type": "application/json"}
-       })
-           .then(res => this.toJsonOrError(res))
-           .then(response => {
-             this.auth_token = response["authToken"] || response["x-authtoken"];
-             this.user = response["user"];
-             return {auth_Token: this.auth_token, user: this.user};
-           });
-     */
   }
 
-  /*
-  async loginFake(email) {
-    try {
-      let res = await fetch(this.base_url.replace("v1", "dev") + `/login/fake/${email}`, {
-        method: "GET",
-        mode: 'no-cors',
-        headers: {"Content-Type": "application/json"}
-      });
-      if (res) {
-        res = this.toJsonOrError(res);
-        this.auth_token = res["authToken"] || res["x-authtoken"];
-        this.user = res["user"];
-        return {authToken: this.auth_Token, user: this.user};
-      };
-      return null;
-    } catch (ex) {
-      throw ex;
+  loginAppKey(appid, appkey) {
+    let idkey = {
+      appid: appid,
+      appkey: appkey
     }
 
+    return this.post(this.security_url + `/login/appkey`, {
+      method: "POST",
+      body: JSON.stringify(idkey),
+      headers: {"Content-Type": "application/json"}
+    })
+        .then(response => {
+          this.auth_token = response["authToken"] || response["x-authtoken"];
+          this.user = response["user"];
+          return {auth_Token: this.auth_token, user: this.user};
+        });
   }
-*/
+
   get(url, body = null) {
     let options = {
       method: "GET",
@@ -158,7 +149,7 @@ class MendelBase {
       options.headers["x-authtoken"] = this.auth_token
     }
 
-    let realurl = url.indexOf('http://') != -1 ? url :  this.base_url + url;
+    let realurl = url.indexOf('http://') != -1 ? url : this.base_url + url;
     return fetch(realurl, options)
         .then(res => this.toJsonOrError(res))
   }
