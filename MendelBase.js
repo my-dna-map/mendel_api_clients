@@ -36,12 +36,12 @@ class MendelBase {
    * MendelBioApi constructor
    * @param base_url
    */
-  constructor(base_url,security_url) {
+  constructor(base_url, security_url) {
     let url = new URL(base_url);
     this.base_url = `${url.protocol}//${url.host}` + url.pathname;
     this.security_url = security_url;
 
-    if (!security_url){
+    if (!security_url) {
       this.security_url = this.base_url;
     }
 
@@ -124,15 +124,18 @@ class MendelBase {
       appkey: appkey
     }
 
-    return this.post(this.security_url + `/login/appkey`, {
+    return fetch(this.security_url + "/login/appkey", {
       method: "POST",
       body: JSON.stringify(idkey),
       headers: {"Content-Type": "application/json"}
     })
+        .then(res => this.toJsonOrError(res))
         .then(response => {
           this.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
           return {auth_Token: this.auth_token, user: this.user};
+        }).catch(err => {
+          logger.error(err)
         });
   }
 
@@ -180,7 +183,7 @@ class MendelBase {
   }
 
   post(url, data) {
-    this.checkAuthenticated();
+
     let options = {
       method: "POST",
       body: data ? JSON.stringify(data) : null,

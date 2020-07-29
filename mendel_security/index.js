@@ -24,9 +24,17 @@ class MendelSecurity extends MendelBase {
    */
 
   constructor(base_url) {
-    super(base_url,base_url);
+    super(base_url, base_url);
     this.base_url = base_url;
+  }
+
+  isValidToken(token) {
+    return this.post("/login/isValidToken",{token:token});
+  }
+
+  decode(token) {
+    return this.post("/login/decode",{token:token});
   }
 }
 
-module.exports = MendelBioApi;
+module.exports = MendelSecurity;
