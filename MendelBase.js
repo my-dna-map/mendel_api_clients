@@ -135,7 +135,7 @@ class MendelBase {
           this.user = response["user"];
           return {auth_Token: this.auth_token, user: this.user};
         }).catch(err => {
-          logger.error(err)
+          throw new Error(err);
         });
   }
 
