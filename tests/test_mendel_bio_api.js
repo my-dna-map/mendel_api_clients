@@ -20,13 +20,12 @@ async function test() {
   client.loginAppKey(config.mendel.appid, config.mendel.appkey)
       .then(async (result) => {
         if ( result) {
-          client.MedicalInfo.create({dnaId: "777756001909173569"})
+          client.MedicalInfo.create()
               .then(dna => {
                 dna.dnaId = "777756001909173569";
                 client.MedicalInfo.update(dna).then(dna => {
                   console.log(dna);
                 })
-
               });
         }
       })
