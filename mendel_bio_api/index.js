@@ -64,6 +64,11 @@ class MendelBioApi extends MendelBase {
         "Parameters medical_info.objectId can't be null or empty";
       }
 
+      if (!medical_info.dnaId) {
+        throw "Invalid parameter medical_info in updateMedicalInfo method. " +
+        "Parameters medical_info.dnaId can't be null or empty";
+      }
+
       return this.parent.put(`/minfo/${medical_info.objectId}`, medical_info)
     },
 
