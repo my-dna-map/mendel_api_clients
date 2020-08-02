@@ -18,7 +18,7 @@ class MendelBase {
    * Auth token to be included in all Mendel BIO API calls
    * @type {null}
    */
-  auth_token = null;
+  static auth_token = null;
 
   /**
    *
@@ -58,7 +58,7 @@ class MendelBase {
    * Checks if the authentication token is acquired. In case NO, throws and exception.
    */
   checkAuthenticated() {
-    if (this.auth_token == null) {
+    if (MendelBase.auth_token == null) {
       throw {error: 300, message: "Authentication required before make any Mendel BIO API call"};
     }
   }
@@ -77,9 +77,9 @@ class MendelBase {
     })
         .then(res => this.toJsonOrError(res))
         .then(response => {
-          this.auth_token = response["authToken"] || response["x-authtoken"];
+          MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
-          return {authToken: this.auth_Token, user: this.user};
+          return {authToken: MendelBase.auth_token, user: this.user};
         });
   }
 
@@ -96,9 +96,9 @@ class MendelBase {
     })
         .then(res => this.toJsonOrError(res))
         .then(response => {
-          this.auth_token = response["authToken"] || response["x-authtoken"];
+          MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
-          return {auth_Token: this.auth_Token, user: this.user};
+          return {auth_Token: MendelBase.auth_token, user: this.user};
         });
   }
 
@@ -112,9 +112,9 @@ class MendelBase {
 
     return this.get(this.security_url.replace("v1", "dev") + `/login/fake/${email}`)
         .then(response => {
-          this.auth_token = response["authToken"] || response["x-authtoken"];
+          MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
-          return {auth_Token: this.auth_token, user: this.user};
+          return {auth_Token: MendelBase.auth_token, user: this.user};
         });
   }
 
@@ -131,9 +131,9 @@ class MendelBase {
     })
         .then(res => this.toJsonOrError(res))
         .then(response => {
-          this.auth_token = response["authToken"] || response["x-authtoken"];
+          MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
-          return {auth_Token: this.auth_token, user: this.user};
+          return {auth_Token: MendelBase.auth_token, user: this.user};
         })
         .catch(err => {
           throw err;
@@ -149,8 +149,8 @@ class MendelBase {
       }
     }
 
-    if (this.auth_token) {
-      options.headers["x-authtoken"] = this.auth_token
+    if (MendelBase.auth_token) {
+      options.headers["x-authtoken"] = MendelBase.auth_token
     }
 
     let realurl = url.indexOf('http://') != -1 ? url : this.base_url + url;
@@ -175,8 +175,8 @@ class MendelBase {
       }
     }
 
-    if (this.auth_token) {
-      options.headers["x-authtoken"] = this.auth_token
+    if (MendelBase.auth_token) {
+      options.headers["x-authtoken"] = MendelBase.auth_token
     }
 
     return fetch(this.base_url + url, options)
@@ -190,12 +190,12 @@ class MendelBase {
       body: data ? JSON.stringify(data) : null,
       headers: {
         "Content-Type": "application/json",
-        "x-authtoken": this.auth_token
+        "x-authtoken": MendelBase.auth_token
       }
     }
 
-    if (this.auth_token) {
-      options.headers["x-authtoken"] = this.auth_token
+    if (MendelBase.auth_token) {
+      options.headers["x-authtoken"] = MendelBase.auth_token
     }
     return fetch(this.base_url + url, options)
         .then(res => this.toJsonOrError(res))
