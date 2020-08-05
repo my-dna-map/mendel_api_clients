@@ -72,12 +72,28 @@ class MendelBAMApi extends MendelBase {
 
   }
 
+  Files = {
+    getBAN(idbam,idfile) {
+      return this.parent.get(`/files/${idbam}/file/${idfile}`);
+    },
+    get(file) {
+      return this.parent.get(`/files/file?id=${file}`);
+    },
+    getEx(file) {
+      return this.parent.get(`/files/file?id=${file}`);
+    },
+    getMetainfo () {
+      return this.parent.get(`/files/file/${file}/metainfo`);
+    }
+  }
+
   constructor(base_url) {
     super(base_url);
     this.base_url = base_url;
     this.Context.parent = this;
     this.Cluster.parent = this;
     this.Worflows.parent = this;
+    this.Files.parent = this;
   }
 
 }
