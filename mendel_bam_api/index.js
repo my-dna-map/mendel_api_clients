@@ -87,12 +87,33 @@ class MendelBAMApi extends MendelBase {
     }
   }
 
+  Configuration = {
+
+    all() {
+      return this.parent.get(`/configuration/all`);
+    },
+
+    byId(idConfiguration) {
+      return this.parent.get(`/configuration/byid/${idConfiguration}`);
+    },
+
+    byName(name) {
+      return this.parent.get(`/configuration/${name}`);
+    },
+
+    byTableName(name) {
+      return this.parent.get(`/configuration/table/${name}`);
+    },
+
+  }
+
   constructor(base_url) {
     super(base_url);
     this.base_url = base_url;
     this.Context.parent = this;
     this.Cluster.parent = this;
     this.Worflows.parent = this;
+    this.Configuration.parent = this;
     this.Files.parent = this;
   }
 
