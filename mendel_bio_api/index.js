@@ -48,6 +48,16 @@ class MendelBioApi extends MendelBase {
     },
 
     /**
+     * Retrieve and document DB MedicalInfo object by id
+     * @param objectId : Id to lookup
+     * @returns {Promise<any>}
+     */
+
+    getByDnaId(dnai) {
+      return this.parent.get( `/minfo/dna/${dnai}`)
+    },
+
+    /**
      * Update an Medical Info object
      * @param medical_info : medical info object to be updated
      * @returns {Promise<any>} Return the updated Medical Info object
@@ -113,6 +123,18 @@ class MendelBioApi extends MendelBase {
     },
   };
 
+  Results = {
+
+      all (objectId,query) {
+        return this.parent.getAuthenticate( `/minfo/${objectId}/results/all`,query)
+      },
+
+      update(objectId, result) {
+        return this.parent.put( `/minfo/${objectId}/results`,result)
+      }
+
+  }
+
   /**
    *
    * @param base_url
@@ -122,6 +144,7 @@ class MendelBioApi extends MendelBase {
     super(base_url,security_url);
     this.base_url = base_url;
     this.MedicalInfo.parent = this;
+    this.Results.parent = this;
   }
 }
 
