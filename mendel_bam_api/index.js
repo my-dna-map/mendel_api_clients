@@ -105,7 +105,7 @@ class MendelBAMApi extends MendelBase {
       return this.parent.get(`/configuration/table/${name}`);
     },
 
-    qyeryTable(name,query) {
+    queryTable(name,query) {
       return this.parent.post(`/configuration/table/${name}/query`,query);
     },
   }
