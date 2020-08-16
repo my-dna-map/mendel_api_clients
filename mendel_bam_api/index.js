@@ -82,7 +82,7 @@ class MendelBAMApi extends MendelBase {
     getEx(file) {
       return this.parent.get(`/files/file?id=${file}`);
     },
-    getMetainfo () {
+    getMetainfo (file) {
       return this.parent.get(`/files/file/${file}/metainfo`);
     }
   }
