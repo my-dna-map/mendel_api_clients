@@ -133,7 +133,7 @@ class MendelBioApi extends MendelBase {
     },
 
     byName(objectId,name) {
-      return this.parent.get(`/minfo/${objectId}/results/${name}`);
+      return this.parent.get(`/minfo/${objectId}/results/name/${name}`);
     },
 
     update(objectId, result) {
