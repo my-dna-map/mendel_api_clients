@@ -20,9 +20,8 @@ class MendelBioApi extends MendelBase {
   MedicalInfo = {
 
 
-
-    create () {
-      return this.parent.post( "/minfo");
+    create() {
+      return this.parent.post("/minfo");
     },
     /**
      *
@@ -34,7 +33,7 @@ class MendelBioApi extends MendelBase {
 
     get(search) {
       let search_url_part = `/minfo/all`
-      return this.parent.post( search_url_part,search);
+      return this.parent.post(search_url_part, search);
     },
 
     /**
@@ -44,7 +43,7 @@ class MendelBioApi extends MendelBase {
      */
 
     getById(objectId) {
-      return this.parent.get( `/minfo/${objectId}`)
+      return this.parent.get(`/minfo/${objectId}`)
     },
 
     /**
@@ -54,7 +53,7 @@ class MendelBioApi extends MendelBase {
      */
 
     getByDnaId(dnai) {
-      return this.parent.get( `/minfo/dna/${dnai}`)
+      return this.parent.get(`/minfo/dna/${dnai}`)
     },
 
     /**
@@ -89,7 +88,7 @@ class MendelBioApi extends MendelBase {
      */
 
     add(dnaId) {
-      return this.parent.post( `/minfo/${dnaId}`);
+      return this.parent.post(`/minfo/${dnaId}`);
 
     },
 
@@ -101,7 +100,7 @@ class MendelBioApi extends MendelBase {
      */
 
     uploadFile({medicalInfo, buffer, fileName}) {
-      return this.parent.put( `/minfo/${medicalInfo.objectId}/files`, {Name: fileName, Body: [...buffer]});
+      return this.parent.put(`/minfo/${medicalInfo.objectId}/files`, {Name: fileName, Body: [...buffer]});
     },
 
     /**
@@ -119,19 +118,23 @@ class MendelBioApi extends MendelBase {
      */
 
     file({medicalInfo, fileName}) {
-      return this.parent.getAuthenticate( `/minfo/${medicalInfo.objectId}/files/${fileName}`)
+      return this.parent.getAuthenticate(`/minfo/${medicalInfo.objectId}/files/${fileName}`)
     },
   };
 
   Results = {
 
-      all (objectId,query) {
-        return this.parent.getAuthenticate( `/minfo/${objectId}/results/all`,query)
-      },
+    all(objectId, query) {
+      return this.parent.getAuthenticate(`/minfo/${objectId}/results/all`, query)
+    },
 
-      update(objectId, result) {
-        return this.parent.put( `/minfo/${objectId}/results`,result)
-      }
+    result(idResult) {
+      return this.parent.getAuthenticate(`/minfo/${objectId}/results/${idResult}`)
+    },
+
+    update(objectId, result) {
+      return this.parent.put(`/minfo/${objectId}/results`, result)
+    }
 
   }
 
@@ -140,8 +143,8 @@ class MendelBioApi extends MendelBase {
    * @param base_url
    */
 
-  constructor(base_url,security_url) {
-    super(base_url,security_url);
+  constructor(base_url, security_url) {
+    super(base_url, security_url);
     this.base_url = base_url;
     this.MedicalInfo.parent = this;
     this.Results.parent = this;
