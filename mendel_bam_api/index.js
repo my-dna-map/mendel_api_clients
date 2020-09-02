@@ -110,6 +110,27 @@ class MendelBAMApi extends MendelBase {
     },
   }
 
+  Deliverables = {
+    all(query) {
+      return this.parent.post(`/deliverables/all`, query)
+    },
+
+    byId(id) {
+      return this.parent.get(`/deliverables/byId/{$id}`)
+    },
+
+    byProviderName(name) {
+      return this.parent.get(`/deliverables/byprovidername/{$name}`)
+    },
+
+    update (deliverable) {
+      return this.parent.post(`/deliverables/`,deliverable)
+    }
+
+
+  }
+
+
   constructor(base_url) {
     super(base_url);
     this.base_url = base_url;
@@ -118,6 +139,7 @@ class MendelBAMApi extends MendelBase {
     this.Worflows.parent = this;
     this.Configuration.parent = this;
     this.Files.parent = this;
+    this.Deliverables.parent = this;
   }
 
 }
