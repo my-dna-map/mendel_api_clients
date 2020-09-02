@@ -127,7 +127,6 @@ class MendelBAMApi extends MendelBase {
       return this.parent.post(`/deliverables`,deliverable)
     }
 
-
   }
 
 
