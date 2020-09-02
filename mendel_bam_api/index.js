@@ -112,19 +112,19 @@ class MendelBAMApi extends MendelBase {
 
   Deliverables = {
     all(query) {
-      return this.parent.post(`/deliverables/all`, query)
+      return this.parent.post(`/deliverable/all`, query)
     },
 
     byId(id) {
-      return this.parent.get(`/deliverables/byId/{$id}`)
+      return this.parent.get(`/deliverable/byId/{$id}`)
     },
 
     byProviderName(name) {
-      return this.parent.get(`/deliverables/byprovidername/{$name}`)
+      return this.parent.get(`/deliverable/byprovidername/{$name}`)
     },
 
     update (deliverable) {
-      return this.parent.post(`/deliverables`,deliverable)
+      return this.parent.post(`/deliverable`,deliverable)
     }
 
   }
