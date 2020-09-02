@@ -10,149 +10,189 @@ const MendelBase = require('../MendelBase');
 
 class MendelBioApi extends MendelBase {
 
-  /**
-   * Base Url for all Mendel BIO API calls.
-   * @type {string`}
-   */
-
-  base_url = null;
-
-  MedicalInfo = {
-
-
-    create() {
-      return this.parent.post("/minfo");
-    },
     /**
-     *
-     * @param search
-     * @param max
-     * @param args
-     * @returns {*}
+     * Base Url for all Mendel BIO API calls.
+     * @type {string`}
      */
 
-    get(search) {
-      let search_url_part = `/minfo/all`
-      return this.parent.post(search_url_part, search);
-    },
+    base_url = null;
 
-    /**
-     * Retrieve and document DB MedicalInfo object by id
-     * @param objectId : Id to lookup
-     * @returns {Promise<any>}
-     */
+    MedicalInfo = {
 
-    getById(objectId) {
-      return this.parent.get(`/minfo/${objectId}`)
-    },
 
-    /**
-     * Retrieve and document DB MedicalInfo object by id
-     * @param objectId : Id to lookup
-     * @returns {Promise<any>}
-     */
+        create() {
+            return this.parent.post("/minfo");
+        },
+        /**
+         *
+         * @param search
+         * @param max
+         * @param args
+         * @returns {*}
+         */
 
-    getByDnaId(dnai) {
-      return this.parent.get(`/minfo/dna/${dnai}`)
-    },
+        get(search) {
+            let search_url_part = `/minfo/all`
+            return this.parent.post(search_url_part, search);
+        },
 
-    /**
-     * Update an Medical Info object
-     * @param medical_info : medical info object to be updated
-     * @returns {Promise<any>} Return the updated Medical Info object
-     */
+        /**
+         * Retrieve and document DB MedicalInfo object by id
+         * @param objectId : Id to lookup
+         * @returns {Promise<any>}
+         */
 
-    update(medical_info) {
+        getById(objectId) {
+            return this.parent.get(`/minfo/${objectId}`)
+        },
 
-      if (!medical_info) {
-        throw "Invalid parameter medical_info in updateMedicalInfo method. Parameter can't be null or empty";
-      }
+        /**
+         * Retrieve and document DB MedicalInfo object by id
+         * @param objectId : Id to lookup
+         * @returns {Promise<any>}
+         */
 
-      if (!medical_info.objectId) {
-        throw "Invalid parameter medical_info in updateMedicalInfo method. " +
-        "Parameters medical_info.objectId can't be null or empty";
-      }
+        getByDnaId(dnai) {
+            return this.parent.get(`/minfo/dna/${dnai}`)
+        },
 
-      if (!medical_info.dnaId) {
-        throw "Invalid parameter medical_info in updateMedicalInfo method. " +
-        "Parameters medical_info.dnaId can't be null or empty";
-      }
+        /**
+         * Update an Medical Info object
+         * @param medical_info : medical info object to be updated
+         * @returns {Promise<any>} Return the updated Medical Info object
+         */
 
-      return this.parent.put(`/minfo/${medical_info.objectId}`, medical_info)
-    },
+        update(medical_info) {
 
-    /**
-     * Update an Medical Info object
-     * @param dnaId : required DNA ID from the Vault.
-     * @returns {Promise<any>} Returns the created Medical Info object
-     */
+            if (!medical_info) {
+                throw "Invalid parameter medical_info in updateMedicalInfo method. Parameter can't be null or empty";
+            }
 
-    add(dnaId) {
-      return this.parent.post(`/minfo/${dnaId}`);
+            if (!medical_info.objectId) {
+                throw "Invalid parameter medical_info in updateMedicalInfo method. " +
+                "Parameters medical_info.objectId can't be null or empty";
+            }
 
-    },
+            if (!medical_info.dnaId) {
+                throw "Invalid parameter medical_info in updateMedicalInfo method. " +
+                "Parameters medical_info.dnaId can't be null or empty";
+            }
 
-    /**
-     *  Upload an file associated with an Medical Information object
-     * @param medicalInfo  Medical Info object to whom file will associated
-     * @param buffer File buffer
-     * @param fileName File Name
-     */
+            return this.parent.put(`/minfo/${medical_info.objectId}`, medical_info)
+        },
 
-    uploadFile({medicalInfo, buffer, fileName}) {
-      return this.parent.put(`/minfo/${medicalInfo.objectId}/files`, {Name: fileName, Body: [...buffer]});
-    },
+        /**
+         * Update an Medical Info object
+         * @param dnaId : required DNA ID from the Vault.
+         * @returns {Promise<any>} Returns the created Medical Info object
+         */
 
-    /**
-     *  return all information about a file including the bytes.
-     * @param {medicalInfo  Medical Info Object to whom the file will be required.
-     * @param fileName : File Name
-     * @returns {Promise<any>} {Name: File Name,
-     *                          Body: { AcceptRanges: 'bytes',
+        add(dnaId) {
+            return this.parent.post(`/minfo/${dnaId}`);
+
+        },
+
+        /**
+         *  Upload an file associated with an Medical Information object
+         * @param medicalInfo  Medical Info object to whom file will associated
+         * @param buffer File buffer
+         * @param fileName File Name
+         */
+
+        uploadFile({medicalInfo, buffer, fileName}) {
+            return this.parent.put(`/minfo/${medicalInfo.objectId}/files`, {Name: fileName, Body: [...buffer]});
+        },
+
+        /**
+         *  return all information about a file including the bytes.
+         * @param {medicalInfo  Medical Info Object to whom the file will be required.
+         * @param fileName : File Name
+         * @returns {Promise<any>} {Name: File Name,
+         *                          Body: { AcceptRanges: 'bytes',
                                       LastModified: '2019-09-09T08:46:53.000Z',
                                       ContentLength: 9,
                                       ETag: '"81e6816987d784c0d3a44a1f7608546c"',
                                       ContentType: 'application/octet-stream',
                                       Metadata: {},
                                       Body: { type: 'Buffer', data: [Array] }}}
-     */
+         */
 
-    file({medicalInfo, fileName}) {
-      return this.parent.getAuthenticate(`/minfo/${medicalInfo.objectId}/files/${fileName}`)
-    },
-  };
+        file({medicalInfo, fileName}) {
+            return this.parent.getAuthenticate(`/minfo/${medicalInfo.objectId}/files/${fileName}`)
+        },
+    };
 
-  Results = {
+    Results = {
 
-    all(objectId, query) {
-      return this.parent.post(`/minfo/${objectId}/results/all`, query)
-    },
+        all(objectId, query) {
+            return this.parent.post(`/minfo/${objectId}/results/all`, query)
+        },
 
-    result(idResult) {
-      return this.parent.get(`/minfo/${objectId}/results/${idResult}`)
-    },
+        result(idResult) {
+            return this.parent.get(`/minfo/${objectId}/results/${idResult}`)
+        },
 
-    byName(objectId,name) {
-      return this.parent.get(`/minfo/${objectId}/results/name/${name}`);
-    },
+        byName(objectId, name) {
+            return this.parent.get(`/minfo/${objectId}/results/name/${name}`);
+        },
 
-    update(objectId, result) {
-      return this.parent.put(`/minfo/${objectId}/results`, result)
+        update(objectId, result) {
+            return this.parent.put(`/minfo/${objectId}/results`, result)
+        }
+
     }
 
-  }
+    Forms = {
 
-  /**
-   *
-   * @param base_url
-   */
+        all(objectId, query) {
+            return this.parent.post(`/minfo/${objectId}/forms/all`, query)
+        },
 
-  constructor(base_url, security_url) {
-    super(base_url, security_url);
-    this.base_url = base_url;
-    this.MedicalInfo.parent = this;
-    this.Results.parent = this;
-  }
+        result(idForm) {
+            return this.parent.get(`/minfo/${objectId}/forms/${idForm}`)
+        },
+
+        byName(objectId, name) {
+            return this.parent.get(`/minfo/${objectId}/forms/name/${name}`);
+        },
+
+        update(objectId, form) {
+            return this.parent.put(`/minfo/${objectId}/forms`, form)
+        }
+
+    }
+
+    Deliverables = {
+        all(query) {
+            return this.parent.post(`/deliverables/all`, query)
+        },
+
+        byId(id) {
+            return this.parent.get(`/deliverables/byId/{$id}`)
+        },
+
+        byProviderName(name) {
+            return this.parent.get(`/deliverables/byprovidername/{$name}`)
+        },
+
+        update (deliverable) {
+            return this.parent.post(`/deliverables/`,deliverable)
+        }
+
+
+    }
+
+    /**
+     *
+     * @param base_url
+     */
+
+    constructor(base_url, security_url) {
+        super(base_url, security_url);
+        this.base_url = base_url;
+        this.MedicalInfo.parent = this;
+        this.Results.parent = this;
+    }
 }
 
 module.exports = MendelBioApi;
