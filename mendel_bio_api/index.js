@@ -148,7 +148,7 @@ class MendelBioApi extends MendelBase {
             return this.parent.post(`/minfo/${objectId}/forms/all`, query)
         },
 
-        result(idForm) {
+        form(idForm) {
             return this.parent.get(`/minfo/${objectId}/forms/${idForm}`)
         },
 

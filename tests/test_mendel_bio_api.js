@@ -7,7 +7,7 @@ const client = new BioClient("http://localhost:30005/mendel/bio/v1","http://loca
 
 const config = {
   mendel : {
-    security_service:"localhost:30010",
+    security_service:"http://tools.mydnamap.com/",
     appkey:"7af1b1d6-dec8-421a-b7b0-dcfe8d3f8dcf" ,
     appid: "0f0c28a9-cdd3-4484-9319-db250e2e282e"
   }
