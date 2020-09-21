@@ -173,6 +173,7 @@ class MendelBioApi extends MendelBase {
         this.base_url = base_url;
         this.MedicalInfo.parent = this;
         this.Results.parent = this;
+        this.Forms.parent = this;
     }
 }
 
