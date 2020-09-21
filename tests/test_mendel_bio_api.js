@@ -42,7 +42,7 @@ async function test() {
 
     client.loginAppKey(config.mendel.appid, config.mendel.appkey)
         .then(async (result) => {
-           let r = await client.Results.byName("99000020190311912001","name");
+           let r = await client.Results.byName("99000020190311912001","pharma_process_results");
            console.log (r);
         })
         .catch(e => {
