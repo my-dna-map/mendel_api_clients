@@ -12,7 +12,7 @@ const config = {
     }
 };
 
-async function test() {
+async function test1() {
     // for TEST use 7777 as start string of any new created dnaId.
     // all dnaId creartes with 7777 will be delerted from the database.
 
@@ -30,6 +30,20 @@ async function test() {
                         })
                     });
             }
+        })
+        .catch(e => {
+            console.log(e)
+        });
+}
+
+async function test() {
+    // for TEST use 7777 as start string of any new created dnaId.
+    // all dnaId creartes with 7777 will be delerted from the database.
+
+    client.loginAppKey(config.mendel.appid, config.mendel.appkey)
+        .then(async (result) => {
+           let r = await client.Results.byName("99000020190311912001","name");
+           console.log (r);
         })
         .catch(e => {
             console.log(e)
