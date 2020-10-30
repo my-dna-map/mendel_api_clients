@@ -132,7 +132,7 @@ class MendelBioApi extends MendelBase {
       return this.parent.get(`/minfo/${objectId}/results/${idResult}`)
     },
 
-    byName(objectId,name) {
+    byName(objectId, name) {
       return this.parent.get(`/minfo/${objectId}/results/name/${name}`);
     },
 
@@ -144,20 +144,24 @@ class MendelBioApi extends MendelBase {
 
   Person = {
 
-    all( query) {
+    all(query) {
       return this.parent.post(`/person/all`, query)
     },
 
-    result(idResult) {
-      return this.parent.get(`/person/${objectId}/results/${idResult}`)
+    ById(idResult) {
+      return this.parent.get(`/person/${objectId}`)
     },
 
-    byName(objectId,name) {
-      return this.parent.get(`/person/${objectId}/results/name/${name}`);
+    update(p) {
+      return this.parent.put(`/person`, p)
     },
 
-    update(objectId, result) {
-      return this.parent.put(`/person/${objectId}/results`, result)
+    addSample(objectId, sampleId) {
+      return this.parent.post(`/person/${objectId}/addSample/${sampleId}`,{});
+    },
+
+    allSamples (objectId) {
+      return this.parent.get(`/person/${objectId}/samples`, query)
     }
 
   }
