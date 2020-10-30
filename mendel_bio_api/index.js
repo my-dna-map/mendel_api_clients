@@ -142,6 +142,26 @@ class MendelBioApi extends MendelBase {
 
   }
 
+  Person = {
+
+    all( query) {
+      return this.parent.post(`/person/all`, query)
+    },
+
+    result(idResult) {
+      return this.parent.get(`/person/${objectId}/results/${idResult}`)
+    },
+
+    byName(objectId,name) {
+      return this.parent.get(`/person/${objectId}/results/name/${name}`);
+    },
+
+    update(objectId, result) {
+      return this.parent.put(`/person/${objectId}/results`, result)
+    }
+
+  }
+
   /**
    *
    * @param base_url
