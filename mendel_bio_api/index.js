@@ -178,6 +178,7 @@ class MendelBioApi extends MendelBase {
     this.Results.parent = this;
     this.Person.parent = this;
   }
+
 }
 
 module.exports = MendelBioApi;
