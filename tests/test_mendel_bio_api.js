@@ -35,6 +35,7 @@ async function test1() {
                         console.log(dna);
                     })
                 });*/
+
         }
       })
       .catch(e => {
@@ -43,6 +44,7 @@ async function test1() {
 }
 
 async function test() {
+
   // for TEST use 7777 as start string of any new created dnaId.
   // all dnaId creartes with 7777 will be delerted from the database.
 
