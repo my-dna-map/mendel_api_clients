@@ -145,20 +145,21 @@ class MendelBioApi extends MendelBase {
     Forms = {
 
         all(objectId, query) {
-            return this.parent.post(`/person/${objectId}/forms/all`, query)
+            return this.parent.post(`/minfo/${objectId}/forms/all`, query)
         },
 
         form(idForm) {
-            return this.parent.get(`/person/${objectId}/forms/${idForm}`)
+            return this.parent.get(`/minfo/${objectId}/forms/${idForm}`)
         },
 
         byName(objectId, name) {
-            return this.parent.get(`/person/${objectId}/forms/name/${name}`);
+            return this.parent.get(`/minfo/${objectId}/forms/name/${name}`);
         },
 
         update(objectId, form) {
-            return this.parent.put(`/person/${objectId}/forms`, form)
+            return this.parent.put(`/minfo/${objectId}/forms`, form)
         }
+
     }
 
 
