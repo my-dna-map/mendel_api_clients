@@ -159,7 +159,6 @@ class MendelBioApi extends MendelBase {
         update(objectId, form) {
             return this.parent.put(`/person/${objectId}/forms`, form)
         }
-
     }
 
 
