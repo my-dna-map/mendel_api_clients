@@ -161,6 +161,30 @@ class MendelBioApi extends MendelBase {
         }
     }
 
+    Person = {
+
+        all(objectId, query) {
+            return this.parent.post(`/person/${objectId}/all`, query)
+        },
+
+        byId(objectId) {
+            return this.parent.get(`/person/${objectId}`)
+        },
+
+        addSample (objectId,sampleId) {
+            return this.parent.get(`/person/${objectId}/addSample/${sampleId}`)
+        },
+
+        allSamples (objectId) {
+            return this.parent.get(`/person/${objectId}/samples`)
+
+        },
+
+        update( person) {
+            return this.parent.put(`/person`, person)
+        }
+    }
+
 
     /**
      *
@@ -173,6 +197,7 @@ class MendelBioApi extends MendelBase {
         this.MedicalInfo.parent = this;
         this.Results.parent = this;
         this.Forms.parent = this;
+        this.Person.parent = this;
     }
 }
 
