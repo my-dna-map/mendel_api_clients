@@ -2,7 +2,7 @@
 
 const BioClient = new require("../mendel_bio_api");
 
-const client = new BioClient("http://tools.mydnamap.com/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
+const client = new BioClient("http://localhost:30005/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
 
 const config = {
     mendel: {
@@ -89,7 +89,6 @@ async function getAll() {
 }
 
 
-
 async function getById(id) {
 
     client.loginAppKey(config.mendel.appid, config.mendel.appkey)
@@ -103,9 +102,31 @@ async function getById(id) {
         });
 }
 
+async function addForm() {
+
+    client.loginAppKey(config.mendel.appid, config.mendel.appkey)
+        .then(async (result) => {
+            if (result) {
+
+                client.Person.update({})
+                    .then(p => {
+                        console.log(p);
+                         client.Forms.update(p.id,{value:"The value"})
+                            .then (f=> {
+                                console.log (f)
+                            })
+                    });
+            }
+        })
+        .catch(e => {
+            console.log(e)
+        });
+}
+
 //update();
 //getAll();
-getById("f6abcf00-201c-11eb-8dbe-bda7bee04c4e");
+//getById("f6abcf00-201c-11eb-8dbe-bda7bee04c4e");
+addForm();
 
 
 
