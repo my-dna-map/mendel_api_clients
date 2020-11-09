@@ -88,6 +88,8 @@ async function getAll() {
         });
 }
 
+
+
 async function getById(id) {
 
     client.loginAppKey(config.mendel.appid, config.mendel.appkey)
