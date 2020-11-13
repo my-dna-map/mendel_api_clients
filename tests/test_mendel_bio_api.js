@@ -2,7 +2,7 @@
 
 const BioClient = new require("../mendel_bio_api");
 
-const client = new BioClient("http://tools.mydnamap.com/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
+const client = new BioClient("http://localhost:30005/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
 
 const config = {
     mendel: {
@@ -12,36 +12,6 @@ const config = {
     }
 };
 
-async function update() {
-    // for TEST use 7777 as start string of any new created dnaId.
-    // all dnaId creartes with 7777 will be delerted from the database.
-
-    client.loginAppKey(config.mendel.appid, config.mendel.appkey)
-        .then(async (result) => {
-            if (result) {
-
-                client.Person.update({})
-                    .then(p => {
-                        console.log(p);
-                    });
-
-                /* client.MedicalInfo.create()
-                      .then(dna => {
-                          dna.novogenId = "BORRAR";
-                          console.log(dna);
-                          client.MedicalInfo.update(dna).then(dna => {
-                              let form = {formId:1,message:"yes"}
-                              client.Forms.update(dna.dnaId,form);
-                              console.log(dna);
-                          })
-                      });*/
-
-            }
-        })
-        .catch(e => {
-            console.log(e)
-        });
-}
 
 
 async function update() {
@@ -87,7 +57,6 @@ async function getAll() {
             console.log(e)
         });
 }
-
 
 async function getById(id) {
 
@@ -156,13 +125,28 @@ async function addSample(objectId,sampleId) {
         });
 }
 
+async function getAllSamples() {
+
+    client.loginAppKey(config.mendel.appid, config.mendel.appkey)
+        .then(async (result) => {
+            let all = await client.MedicalInfo.get();
+            console.log(all);
+
+        })
+        .catch(e => {
+            console.log(e)
+        });
+}
+
+
 //update();
+//
 //getAll();
 //getById("f6abcf00-201c-11eb-8dbe-bda7bee04c4e");
 //addForm();
 //getAllForms("89968c00-22b2-11eb-87fc-a378e458d4ce")
 
-addSample("732ad130-22ab-11eb-b672-8148bb416c3b","99000020190311912001");
+//addSample("732ad130-22ab-11eb-b672-8148bb416c3b","99000020190311912001");
 
-
+getAllSamples();
 

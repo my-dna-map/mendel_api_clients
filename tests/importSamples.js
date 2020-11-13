@@ -24,16 +24,15 @@ async function do_work() {
                 samples.forEach(s => {
                     client.MedicalInfo.create()
                         .then(dna => {
-                            dna.novogenId = "BORRAR";
+                            dna.novogenId = "";
                             dna.sampleName = s.sampleName;
                             dna.originalCode = s.originalCode;
                             dna.personalInfo = {sex:s.Gender,birthdate:"unknown"}
                             dna.familly = {famillyId:s.Familly,relation:s.Relation}
-                            console.log(dna);
-                            /*client.MedicalInfo
+                            client.MedicalInfo
                                 .update(dna).then(dna => {
                                 console.log(dna);
-                            })*/
+                            })
                         });
                 })
             }
