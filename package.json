@@ -1,6 +1,6 @@
 {
   "name": "mendel_api_clients",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Client for the mendel BIO API.",
   "main": "mendel_bio_api/index.js",
   "author": "Mario Rodriguez Mier",

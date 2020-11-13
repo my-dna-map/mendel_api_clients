@@ -172,7 +172,7 @@ class MendelBioApi extends MendelBase {
         },
 
         addSample (objectId,sampleId) {
-            return this.parent.get(`/person/${objectId}/addSample/${sampleId}`)
+            return this.parent.post(`/person/${objectId}/addsample/${sampleId}`)
         },
 
         allSamples (objectId) {

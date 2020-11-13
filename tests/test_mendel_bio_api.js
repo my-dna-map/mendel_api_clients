@@ -2,7 +2,7 @@
 
 const BioClient = new require("../mendel_bio_api");
 
-const client = new BioClient("http://tools.mydnamap.com/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
+const client = new BioClient("http://localhost:30005/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
 
 const config = {
     mendel: {
@@ -140,12 +140,29 @@ async function getAllForms(id) {
         });
 }
 
+async function addSample(objectId,sampleId) {
+
+    client.loginAppKey(config.mendel.appid, config.mendel.appkey)
+        .then(async (result) => {
+            if (result) {
+                client.Person.addSample(objectId,sampleId)
+                    .then(f => {
+                        console.log(f);
+                    });
+            }
+        })
+        .catch(e => {
+            console.log(e)
+        });
+}
 
 //update();
 //getAll();
 //getById("f6abcf00-201c-11eb-8dbe-bda7bee04c4e");
 //addForm();
-getAllForms("89968c00-22b2-11eb-87fc-a378e458d4ce")
+//getAllForms("89968c00-22b2-11eb-87fc-a378e458d4ce")
+
+addSample("732ad130-22ab-11eb-b672-8148bb416c3b","99000020190311912001");
 
 
 

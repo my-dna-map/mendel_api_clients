@@ -24,7 +24,6 @@ async function do_work() {
                 samples.forEach(s => {
                     client.MedicalInfo.create()
                         .then(dna => {
-                            dna.dnaId = "";
                             dna.novogenId = "BORRAR";
                             dna.sampleName = s.sampleName;
                             dna.originalCode = s.originalCode;
@@ -33,7 +32,6 @@ async function do_work() {
                             console.log(dna);
                             /*client.MedicalInfo
                                 .update(dna).then(dna => {
-
                                 console.log(dna);
                             })*/
                         });
