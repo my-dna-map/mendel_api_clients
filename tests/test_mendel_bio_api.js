@@ -2,7 +2,7 @@
 
 const BioClient = new require("../mendel_bio_api");
 
-const client = new BioClient("http://localhost:30005/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
+const client = new BioClient("http://tools.mydnamap.com/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
 
 const config = {
     mendel: {
