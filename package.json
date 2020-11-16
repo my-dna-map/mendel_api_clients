@@ -8,6 +8,8 @@
   "dependencies": {
     "csvtojson": "^2.0.10",
     "docker-names": "^1.1.1",
+    "iso-3166": "^3.1.0",
+    "moment": "^2.29.1",
     "node-fetch": "^2.6.0",
     "prettier": "^1.18.2",
     "uuid": "^3.3.3"

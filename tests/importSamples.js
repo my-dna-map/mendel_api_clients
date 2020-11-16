@@ -1,7 +1,7 @@
 const BioClient = new require("../mendel_bio_api");
 
 const client = new BioClient("http://tools.mydnamap.com/mendel/bio/v1", "http://tools.mydnamap.com/mendel/security/v1");
-
+const SampleCode = require('./SampleCode');
 const config = {
     mendel: {
         security_service: "http://tools.mydnamap.com/",
@@ -21,20 +21,21 @@ async function do_work() {
                     noheader: false,
                 }).fromFile("./samples.tvs");
 
-                samples.forEach(s => {
-                    client.MedicalInfo.create()
-                        .then(dna => {
-                            dna.novogenId = "";
-                            dna.sampleName = s.sampleName;
-                            dna.originalCode = s.originalCode;
-                            dna.personalInfo = {sex:s.Gender,birthdate:"unknown"}
-                            dna.familly = {famillyId:s.Familly,relation:s.Relation}
-                            client.MedicalInfo
-                                .update(dna).then(dna => {
-                                console.log(dna);
-                            })
-                        });
-                })
+                for (let s of samples) {
+                    let dna = await client.MedicalInfo.create()
+                    dna.novogenId = s.originalCode;
+                    let sc = new SampleCode(s.originalCode.replace('R',''));
+                    dna.dnaId = sc.mDmCode;
+                    dna.sampleName = s.sampleName;
+                    dna.originalCode = s.originalCode;
+                    dna.personalInfo = {sex: s.Gender, birthdate: "unknown"}
+                    dna.familly = {famillyId: s.Familly, relation: s.Relation}
+                    client.MedicalInfo
+                        .update(dna).then(dna => {
+                        console.log(dna);
+                    })
+
+                }
             }
         });
 
