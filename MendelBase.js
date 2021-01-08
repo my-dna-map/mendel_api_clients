@@ -183,6 +183,26 @@ class MendelBase {
         .then(res => this.toJsonOrError(res))
   }
 
+  delete(url, data) {
+    this.checkAuthenticated();
+
+    let options = {
+      method: "DELETE",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+
+      }
+    }
+
+    if (MendelBase.auth_token) {
+      options.headers["x-authtoken"] = MendelBase.auth_token
+    }
+
+    return fetch(this.base_url + url, options)
+        .then(res => this.toJsonOrError(res))
+  }
+
   post(url, data) {
 
     let options = {
