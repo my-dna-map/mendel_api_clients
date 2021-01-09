@@ -139,7 +139,8 @@ class MendelBioApi extends MendelBase {
         update(objectId, result) {
             return this.parent.put(`/minfo/${objectId}/results`, result)
         },
-        deleteall(objectId) {
+
+        deleteAll(objectId) {
             return this.parent.delete(`/minfo/${objectId}/results`)
         }
 
