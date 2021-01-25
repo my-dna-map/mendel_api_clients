@@ -189,6 +189,14 @@ class MendelBioApi extends MendelBase {
         }
     }
 
+    Files = {
+        file(filepath) {
+            let name = filepath.split('/');
+            name = name[name.length-1];
+            return this.parent.get(`/files/file/byname/${name}?id=${filepath}`);
+        },
+    }
+
 
     /**
      *
@@ -202,6 +210,7 @@ class MendelBioApi extends MendelBase {
         this.Results.parent = this;
         this.Forms.parent = this;
         this.Person.parent = this;
+        this.File.parent = this;
     }
 }
 
