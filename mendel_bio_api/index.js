@@ -197,7 +197,6 @@ class MendelBioApi extends MendelBase {
         },
     }
 
-
     /**
      *
      * @param base_url
