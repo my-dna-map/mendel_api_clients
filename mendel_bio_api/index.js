@@ -209,7 +209,7 @@ class MendelBioApi extends MendelBase {
         this.Results.parent = this;
         this.Forms.parent = this;
         this.Person.parent = this;
-        this.File.parent = this;
+        this.Files.parent = this;
     }
 }
 
