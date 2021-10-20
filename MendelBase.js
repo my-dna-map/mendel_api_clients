@@ -133,6 +133,12 @@ class MendelBase {
         .then(response => {
           MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
           this.user = response["user"];
+
+          setTimeout(()=> { // Renew Security Tocken
+            logger.info("Renewing AppKey Tocken ..")
+            this.loginAppKey(appid,appkey);
+          } , 1000 * 60 * 60)
+
           return {auth_Token: MendelBase.auth_token, user: this.user};
         })
         .catch(err => {
