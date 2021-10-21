@@ -39,6 +39,15 @@ class MendelSecurity extends MendelBase {
   encode(token) {
     return this.post("/token/encode",{token:token});
   }
+
+  async renew(token) {
+    let retvalue = await this.post("/token/renew",{token:token});
+
+    MendelBase.auth_token = retvalue.token;
+    this.user = retvalue.user;
+
+    return retvalue;
+  }
 }
 
 module.exports = MendelSecurity;

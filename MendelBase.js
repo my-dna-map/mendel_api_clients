@@ -24,7 +24,7 @@ class MendelBase {
    *
    * @type {user}
    */
-  user = null;
+  static user = null;
 
   /**
    *
@@ -78,8 +78,8 @@ class MendelBase {
         .then(res => this.toJsonOrError(res))
         .then(response => {
           MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
-          this.user = response["user"];
-          return {authToken: MendelBase.auth_token, user: this.user};
+          MendelBase.user = response["user"];
+          return {authToken: MendelBase.auth_token, user: MendelBase.user};
         });
   }
 
@@ -97,8 +97,8 @@ class MendelBase {
         .then(res => this.toJsonOrError(res))
         .then(response => {
           MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
-          this.user = response["user"];
-          return {auth_Token: MendelBase.auth_token, user: this.user};
+          MendelBase.user = response["user"];
+          return {auth_Token: MendelBase.auth_token, user: MendelBase.user};
         });
   }
 
@@ -113,8 +113,8 @@ class MendelBase {
     return this.get(this.security_url.replace("v1", "dev") + `/login/fake/${email}`)
         .then(response => {
           MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
-          this.user = response["user"];
-          return {auth_Token: MendelBase.auth_token, user: this.user};
+          MendelBase.user = response["user"];
+          return {auth_Token: MendelBase.auth_token, user: MendelBase.user};
         });
   }
 
@@ -132,14 +132,14 @@ class MendelBase {
         .then(res => this.toJsonOrError(res))
         .then(response => {
           MendelBase.auth_token = response["authToken"] || response["x-authtoken"];
-          this.user = response["user"];
+          MendelBase.user = response["user"];
 
           setTimeout(()=> { // Renew Security Tocken
             logger.info("Renewing AppKey Tocken ..")
             this.loginAppKey(appid,appkey);
           } , 1000 * 60 * 60)
 
-          return {auth_Token: MendelBase.auth_token, user: this.user};
+          return {auth_Token: MendelBase.auth_token, user: MendelBase.user};
         })
         .catch(err => {
           throw err;
