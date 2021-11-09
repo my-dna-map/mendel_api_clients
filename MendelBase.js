@@ -137,7 +137,7 @@ class MendelBase {
           setTimeout(()=> { // Renew Security Tocken
             logger.info("Renewing AppKey Tocken ..")
             this.loginAppKey(appid,appkey);
-          } , 1000 * 60 * 60)
+          } , 1000 * 60 * 60 * 24)
 
           return {auth_Token: MendelBase.auth_token, user: MendelBase.user};
         })
