@@ -933,6 +933,7 @@ class _ApplicationController {
     }
 
     async DecodeToken(token){
+        let authToken = global.AUTH_TOKEN;
         let url = `${this.baseUrl}/api/security/v1/app/decode`
             .replace(new RegExp('//','g'), '/')
             .replace(new RegExp('http:/','g'), 'http://')
@@ -947,8 +948,8 @@ class _ApplicationController {
             },
             body:JSON.stringify(token)
         }
-        if (token != null) {
-            options.headers.Authorization = token;
+        if (authToken != null) {
+            options.headers.Authorization = authToken;
         }
 
         let result = await fetch(url, options);
