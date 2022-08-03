@@ -6,7 +6,7 @@
  * @param res
  * @param next
  */
-async function  authToken_Checker(req, res, next) {
+async function authToken_Checker(req, res, next) {
 
     if (!security) {
         return next();
@@ -28,10 +28,9 @@ async function  authToken_Checker(req, res, next) {
     try {
         let user = await security._Application.DecodeToken(token);
 
-        req.user = decoded;
+        req.user = user;
         return next();
-    }
-    catch(e ) {
+    } catch (e) {
         next({
             code: 403,
             msg: `Bad JWT Token:${token} ERROR:${JSON.stringify(e)}`
@@ -50,8 +49,16 @@ function secured(req, res, next) {
     next();
 }
 
+function isMyDNALabUser (user) {
+    return  user.roles.find(r => {
+        return r.name === "MyDNAMap" ||
+            r.name === "Administrator" ||
+            r.name === "MyDNAMapLab"
+    })
+}
+
 function medicalGroupRequired(req, res, next) {
-    if (req.user && req.user.isMember) {
+    if (req.user && isMyDNALabUser(req.user)) {
         return next();
     }
     return next({
@@ -65,10 +72,10 @@ function mydnamapUserRequired(req, res, next) {
 }
 
 function medicalGroupOrAppKeyRequired(req, res, next) {
-    if (req.user && req.user.appid) {
+    if (req.user && req.user.appId) {
         return next();
     }
-    if (req.user && req.user.isMember) {
+    if (req.user &&  isMyDNALabUser(req.user)) {
         return next();
     }
     return next({
