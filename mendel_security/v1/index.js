@@ -10,7 +10,8 @@ const fetch = require("node-fetch");
 
 const signalR = require ('@microsoft/signalr');
 
-const  {initializeApp}=require("firebase/app")
+const  {initializeApp} = require("firebase/app")
+
 const {getAuth, signInWithEmailAndPassword,signOut} = require('firebase/auth');
 
 // Get this info from server side configuration
