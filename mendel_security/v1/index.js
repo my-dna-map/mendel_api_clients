@@ -16,8 +16,9 @@ const {getAuth, signInWithEmailAndPassword,signOut} = require('firebase/auth');
 
 // Get this info from server side configuration
 
-
-initializeApp(config.securityConfig);
+if (config?.securityConfig) {
+    initializeApp(config.securityConfig);
+}
 
 
 class SettingController {
