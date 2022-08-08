@@ -21,8 +21,11 @@ async function authToken_Checker(req, res, next) {
 
     let token = req.headers["x-authtoken"];
 
-    if (!token) {
+    if (!token && req.headers["Authorization"]) {
         token = req.headers["Authorization"];
+        if (token.indexOf(":") !==-1) {
+            token = token.split(":")[1]
+        }
     }
 
     if (!token) {

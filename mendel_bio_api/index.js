@@ -89,7 +89,6 @@ class MendelBioApi extends MendelBase {
 
         add(dnaId) {
             return this.parent.post(`/minfo/${dnaId}`);
-
         },
 
         /**
