@@ -56,6 +56,10 @@ class MendelBioApi extends MendelBase {
             return this.parent.get(`/minfo/dna/${dnai}`)
         },
 
+        getFilesByDnaId(dnai) {
+            return this.parent.get(`/minfo/files/${dnai}`)
+        },
+
         /**
          * Update an Medical Info object
          * @param medical_info : medical info object to be updated
